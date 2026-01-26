@@ -274,10 +274,13 @@ def extract_price(text):
 
 def extract_current_bid(driver):
     # Combined pattern to search for multiple conditions in one XPath query
+    # Focus on common container elements to improve performance
     combined_pattern = (
-        "//*[(contains(@id,'bid') or contains(@class,'bid') or "
+        "//div[(contains(@id,'bid') or contains(@class,'bid') or "
         "contains(@class,'price') or contains(text(),'Current Bid') or "
-        "contains(text(),'current bid')) and contains(text(),'£')]"
+        "contains(text(),'current bid')) and contains(text(),'£')] | "
+        "//span[(contains(@id,'bid') or contains(@class,'bid') or "
+        "contains(@class,'price')) and contains(text(),'£')]"
     )
     try:
         nodes = driver.find_elements(By.XPATH, combined_pattern)
@@ -416,11 +419,12 @@ def scrape_search_term(driver, term, global_seen_links):
 
         logging.info(f"Scraping {len(new_links)} lot detail pages (term '{term}').")
         for idx, link in enumerate(new_links, start=1):
+            # Mark link as seen before scraping to avoid re-processing on failure
+            global_seen_links.add(link)
             rsleep(*SLEEP_BETWEEN_LOTS)
             row = scrape_lot_page(driver, link, idx)
             if row:
                 rows.append(row)
-                global_seen_links.add(link)
         return rows
     except Exception as e:
         logging.error(f"Error processing term '{term}': {e}")
