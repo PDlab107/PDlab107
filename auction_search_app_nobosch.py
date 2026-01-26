@@ -105,7 +105,7 @@ STOP_IF_NO_NEW_LINKS = True
 HEADLESS = True
 PAGE_LOAD_TIMEOUT = 25
 ELEMENT_WAIT = 12
-SCROLL_PAUSE = 1.0
+SCROLL_PAUSE = 0.3
 DEBUG_SAVE_HTML = False
 SLEEP_BETWEEN_LOTS = (0.7, 1.4)
 SLEEP_BETWEEN_PAGES = (1.0, 1.8)
@@ -148,20 +148,25 @@ def init_driver():
 def robust_find_element(driver, locator, timeout=12):
     """
     Tries to find an element with retries to handle transient issues more gracefully.
+    Uses exponential backoff for retries.
     """
     for attempt in range(3):
         try:
             element = WebDriverWait(driver, timeout).until(EC.presence_of_element_located(locator))
             return element
         except TimeoutException:
-            logging.warning(f"Attempt {attempt + 1} failed for {locator}. Retrying...")
-            time.sleep(2)
+            if attempt < 2:  # Don't sleep on the last attempt
+                wait_time = 0.5 * (2 ** attempt)  # Exponential backoff: 0.5s, 1s
+                logging.warning(f"Attempt {attempt + 1} failed for {locator}. Retrying in {wait_time}s...")
+                time.sleep(wait_time)
+            else:
+                logging.warning(f"Attempt {attempt + 1} failed for {locator}.")
     raise TimeoutException(f"Element {locator} could not be located after retries.")
 
 def accept_cookies(driver):
     try:
         btn = WebDriverWait(driver, 8).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(translate(.,'ACCEPT','accept'),'accept')]")
+            EC.element_to_be_clickable((By.XPATH, "//button[contains(translate(.,'ACCEPT','accept'),'accept')]"))
         )
         btn.click()
         logging.info("Accepted cookies.")
@@ -186,9 +191,12 @@ def collect_lot_links(driver, search_term):
             logging.warning(f"[{search_term}] No lot links found on page {page}, stopping.")
             break
 
-        for _ in range(4):
-            driver.execute_script("window.scrollBy(0, 900);")
-            time.sleep(SCROLL_PAUSE)
+        # Scroll to bottom once to load dynamic content
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(SCROLL_PAUSE)
+        # Scroll back to top to ensure all elements are accessible
+        driver.execute_script("window.scrollTo(0, 0);")
+        time.sleep(SCROLL_PAUSE)
 
         anchors = driver.find_elements(By.XPATH, "//a[contains(@href,'/Event/LotDetails/')]")
         new_count = 0
@@ -265,21 +273,22 @@ def extract_price(text):
     return num
 
 def extract_current_bid(driver):
-    patterns = [
-        "//*[contains(@id,'bid') and contains(text(),'£')]",
-        "//*[contains(@class,'bid') and contains(text(),'£')]",
-        "//*[contains(@class,'price') and contains(text(),'£')]",
-        "//*[contains(text(),'Current Bid') or contains(text(),'current bid')]",
-    ]
-    for xp in patterns:
-        try:
-            nodes = driver.find_elements(By.XPATH, xp)
-            for n in nodes:
-                price = extract_price(n.text)
-                if price:
-                    return price
-        except Exception:
-            continue
+    # Combined pattern to search for multiple conditions in one XPath query
+    combined_pattern = (
+        "//*[(contains(@id,'bid') or contains(@class,'bid') or "
+        "contains(@class,'price') or contains(text(),'Current Bid') or "
+        "contains(text(),'current bid')) and contains(text(),'£')]"
+    )
+    try:
+        nodes = driver.find_elements(By.XPATH, combined_pattern)
+        for n in nodes:
+            price = extract_price(n.text)
+            if price:
+                return price
+    except Exception:
+        pass
+    
+    # Fallback: search all elements with pound signs
     try:
         pound_nodes = driver.find_elements(By.XPATH, "//*[contains(text(),'£')]")
         for el in pound_nodes:
@@ -384,8 +393,11 @@ def scrape_lot_page(driver, link, index):
         "Scraped At": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
     }
 
-def scrape_search_term(term):
-    driver = init_driver()
+def scrape_search_term(driver, term, global_seen_links):
+    """
+    Scrape a single search term using the provided driver instance.
+    Returns list of row data for lots not already in global_seen_links.
+    """
     rows = []
     try:
         links = collect_lot_links(driver, term)
@@ -393,15 +405,26 @@ def scrape_search_term(term):
             logging.warning(f"No links for term '{term}'.")
             return rows
 
-        logging.info(f"Scraping {len(links)} lot detail pages (term '{term}').")
-        for idx, link in enumerate(links, start=1):
+        # Filter out already-scraped links
+        new_links = [link for link in links if link not in global_seen_links]
+        if len(new_links) < len(links):
+            logging.info(f"Skipping {len(links) - len(new_links)} already-scraped lots for term '{term}'.")
+        
+        if not new_links:
+            logging.info(f"All links for term '{term}' already scraped.")
+            return rows
+
+        logging.info(f"Scraping {len(new_links)} lot detail pages (term '{term}').")
+        for idx, link in enumerate(new_links, start=1):
             rsleep(*SLEEP_BETWEEN_LOTS)
             row = scrape_lot_page(driver, link, idx)
             if row:
                 rows.append(row)
+                global_seen_links.add(link)
         return rows
-    finally:
-        driver.quit()
+    except Exception as e:
+        logging.error(f"Error processing term '{term}': {e}")
+        return rows
 
 def save_csv(rows):
     if not rows:
@@ -416,11 +439,20 @@ def save_csv(rows):
 
 def main():
     all_rows = []
-    for term in SEARCH_TERMS:
-        term_rows = scrape_search_term(term)
-        all_rows.extend(term_rows)
+    global_seen_links = set()  # Track scraped links across all search terms
+    driver = None
+    
+    try:
+        driver = init_driver()
+        for term in SEARCH_TERMS:
+            term_rows = scrape_search_term(driver, term, global_seen_links)
+            all_rows.extend(term_rows)
+    finally:
+        if driver:
+            driver.quit()
+    
     save_csv(all_rows)
-    print(f"Finished. Rows: {len(all_rows)} -> {OUTPUT_FILE}")
+    print(f"Finished. Unique lots scraped: {len(all_rows)} -> {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
