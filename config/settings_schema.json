@@ -112,7 +112,7 @@
         "type": "text",
         "id": "email",
         "label": "Email Address",
-        "default": "info@denturefixnow.co.uk"
+        "default": "info@pdlab.co.uk"
       },
       {
         "type": "textarea",
