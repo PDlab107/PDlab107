@@ -1,0 +1,260 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "PDlab Denture Repair",
+    "theme_version": "1.0.0",
+    "theme_author": "PDlab",
+    "theme_documentation_url": "https://pdlab.co.uk",
+    "theme_support_url": "https://pdlab.co.uk/pages/contact"
+  },
+  {
+    "name": "General Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo Image",
+        "info": "Recommended size: 200x50px"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "label": "Logo Width",
+        "default": 150
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#2563eb"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary Color",
+        "default": "#10b981"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text Color",
+        "default": "#1f2937"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Typography"
+      },
+      {
+        "type": "select",
+        "id": "font_body",
+        "label": "Body Font",
+        "options": [
+          {
+            "value": "Inter",
+            "label": "Inter"
+          },
+          {
+            "value": "Arial",
+            "label": "Arial"
+          },
+          {
+            "value": "Helvetica",
+            "label": "Helvetica"
+          },
+          {
+            "value": "Georgia",
+            "label": "Georgia"
+          }
+        ],
+        "default": "Inter"
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "min": 14,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "Base Font Size",
+        "default": 18,
+        "info": "Larger sizes are better for senior users"
+      }
+    ]
+  },
+  {
+    "name": "Contact Information",
+    "settings": [
+      {
+        "type": "text",
+        "id": "phone",
+        "label": "Phone Number",
+        "default": "+44 123 456 7890"
+      },
+      {
+        "type": "text",
+        "id": "email",
+        "label": "Email Address",
+        "default": "info@pdlab.co.uk"
+      },
+      {
+        "type": "textarea",
+        "id": "address",
+        "label": "Physical Address",
+        "default": "Your Business Address\nCity, Postcode\nUnited Kingdom"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp",
+        "label": "WhatsApp Number",
+        "info": "Include country code, e.g., 441234567890"
+      },
+      {
+        "type": "textarea",
+        "id": "hours",
+        "label": "Business Hours",
+        "default": "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday - Sunday: Closed"
+      }
+    ]
+  },
+  {
+    "name": "Trust Badges",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_trust_badges",
+        "label": "Show Trust Badges",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "badge_1_text",
+        "label": "Badge 1 Text",
+        "default": "Fast Turnaround"
+      },
+      {
+        "type": "text",
+        "id": "badge_2_text",
+        "label": "Badge 2 Text",
+        "default": "Money-Back Guarantee"
+      },
+      {
+        "type": "text",
+        "id": "badge_3_text",
+        "label": "Badge 3 Text",
+        "default": "Fully Insured Postage"
+      },
+      {
+        "type": "text",
+        "id": "badge_4_text",
+        "label": "Badge 4 Text",
+        "default": "Expert Technicians"
+      }
+    ]
+  },
+  {
+    "name": "SEO",
+    "settings": [
+      {
+        "type": "text",
+        "id": "meta_title",
+        "label": "Homepage Meta Title",
+        "info": "Leave blank to use shop name"
+      },
+      {
+        "type": "textarea",
+        "id": "meta_description",
+        "label": "Homepage Meta Description",
+        "default": "Professional acrylic denture repair service by post. Send your dentures, we repair them professionally, and post them back. Fast, reliable, and trusted service."
+      },
+      {
+        "type": "text",
+        "id": "meta_keywords",
+        "label": "Meta Keywords",
+        "default": "denture repair, acrylic denture repair, denture repair by post, denture repair service, denture repair UK"
+      },
+      {
+        "type": "image_picker",
+        "id": "social_image",
+        "label": "Social Media Share Image",
+        "info": "Recommended size: 1200x630px"
+      }
+    ]
+  },
+  {
+    "name": "Homepage",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Hero Section"
+      },
+      {
+        "type": "text",
+        "id": "hero_title",
+        "label": "Hero Title",
+        "default": "Hassle-Free Acrylic Denture Repair Service by Post"
+      },
+      {
+        "type": "textarea",
+        "id": "hero_subtitle",
+        "label": "Hero Subtitle",
+        "default": "Professional quality repairs for your dentures, delivered straight to your home!"
+      },
+      {
+        "type": "text",
+        "id": "hero_button_text",
+        "label": "Hero Button Text",
+        "default": "Repair My Dentures"
+      },
+      {
+        "type": "url",
+        "id": "hero_button_link",
+        "label": "Hero Button Link",
+        "default": "/pages/services"
+      }
+    ]
+  },
+  {
+    "name": "Accessibility",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "high_contrast_mode",
+        "label": "Enable High Contrast Mode",
+        "default": false,
+        "info": "Increases contrast for better readability"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_skip_links",
+        "label": "Show Skip to Content Links",
+        "default": true,
+        "info": "Helps keyboard and screen reader users"
+      },
+      {
+        "type": "checkbox",
+        "id": "underline_links",
+        "label": "Underline All Links",
+        "default": false,
+        "info": "Makes links more obvious for users with vision impairment"
+      }
+    ]
+  }
+]

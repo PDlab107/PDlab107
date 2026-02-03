@@ -1,0 +1,16 @@
+{% comment %}
+  Default Page Template
+  Used for any page that doesn't have a specific template
+{% endcomment %}
+
+<div class="section section--large">
+  <div class="container container--narrow">
+    <h1>{{ page.title }}</h1>
+    
+    <div class="card mt-2">
+      <div style="font-size: 1.25rem; line-height: 1.8;">
+        {{ page.content }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+# Shopify theme files
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Node modules (if using build tools)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Backup files
+*.bak
+*.backup
+
+# Config files that might contain sensitive data
+config.yml
+config.yaml
+.env
+.env.local
+
+# Auction scraper (not needed for theme)
+auction_results/
