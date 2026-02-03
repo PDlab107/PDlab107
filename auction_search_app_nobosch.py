@@ -5,7 +5,7 @@ import time
 import logging
 import random
 from datetime import datetime
-from urllib.parse import urljoin
+from urllib.parse import urljoin, quote_plus
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -18,6 +18,8 @@ from selenium.common.exceptions import (
     StaleElementReferenceException
 )
 from webdriver_manager.chrome import ChromeDriverManager
+import requests
+from bs4 import BeautifulSoup
 
 # ---------------- Configuration ----------------
 BASE_SEARCH_URL = "https://www.johnpyeauctions.co.uk/Browse?FullTextQuery={query}"
@@ -110,7 +112,18 @@ DEBUG_SAVE_HTML = False
 SLEEP_BETWEEN_LOTS = (0.7, 1.4)
 SLEEP_BETWEEN_PAGES = (1.0, 1.8)
 
-FIELDNAMES = ["Link", "Title", "Time Remaining", "Current Bid", "Scraped At"]
+# Fee multiplier to account for auction fees
+FEE_MULTIPLIER = 1.5
+
+# Profit thresholds
+MIN_PROFIT_MARGIN = 0.5  # 50%
+MIN_PROFIT_AMOUNT = 50.0  # £50
+
+FIELDNAMES = [
+    "Link", "Title", "Part Number", "Make", "Current Bid", 
+    "Adjusted Price (with fees)", "Comparable Price", "Profit Margin %", 
+    "Profit Amount", "Highlight", "Auction End Time", "Scraped At"
+]
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -161,7 +174,7 @@ def robust_find_element(driver, locator, timeout=12):
 def accept_cookies(driver):
     try:
         btn = WebDriverWait(driver, 8).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(translate(.,'ACCEPT','accept'),'accept')]")
+            EC.element_to_be_clickable((By.XPATH, "//button[contains(translate(.,'ACCEPT','accept'),'accept')]"))
         )
         btn.click()
         logging.info("Accepted cookies.")
@@ -336,6 +349,104 @@ def extract_title(driver):
         logging.warning(f"Failed to extract title: {e}")
         return ""
 
+def extract_part_number(title):
+    """
+    Extract part number from title.
+    Common patterns: alphanumeric codes, numbers with hyphens/slashes
+    """
+    if not title:
+        return ""
+    
+    # Pattern 1: Common part number formats (e.g., 12345-678, ABC123, 123.456.789)
+    patterns = [
+        r'\b([A-Z0-9]{3,}[-./][A-Z0-9]+(?:[-./][A-Z0-9]+)*)\b',  # ABC-123-456
+        r'\b([0-9]{5,})\b',  # 5+ digit numbers
+        r'\b([A-Z]{2,}[0-9]{3,}[A-Z0-9]*)\b',  # AB12345
+    ]
+    
+    for pattern in patterns:
+        match = re.search(pattern, title, re.IGNORECASE)
+        if match:
+            return match.group(1)
+    
+    return ""
+
+def extract_make(title):
+    """
+    Extract manufacturer/brand from title using the search terms list
+    """
+    if not title:
+        return ""
+    
+    title_upper = title.upper()
+    for term in SEARCH_TERMS:
+        if term.upper() in title_upper:
+            return term
+    
+    # Try to find brand at start of title
+    words = title.split()
+    if words and len(words[0]) > 2:
+        return words[0]
+    
+    return ""
+
+def get_ebay_sold_price(part_number, make, title):
+    """
+    Search eBay sold listings to get comparable price
+    Uses requests + BeautifulSoup for lightweight scraping
+    """
+    if not part_number and not make:
+        logging.warning(f"No part number or make to search: {title[:50]}")
+        return None
+    
+    # Build search query
+    search_terms = []
+    if part_number:
+        search_terms.append(part_number)
+    if make:
+        search_terms.append(make)
+    
+    query = " ".join(search_terms)
+    
+    # eBay sold listings URL
+    url = f"https://www.ebay.co.uk/sch/i.html?_nkw={quote_plus(query)}&LH_Sold=1&LH_Complete=1&_sop=13"
+    
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Find sold prices
+        prices = []
+        
+        # Look for price elements in search results
+        price_elements = soup.find_all('span', class_='s-item__price')
+        for elem in price_elements[:10]:  # Check first 10 results
+            price_text = elem.get_text()
+            price = extract_price(price_text)
+            if price:
+                try:
+                    prices.append(float(price))
+                except ValueError:
+                    continue
+        
+        if prices:
+            # Return average of top 5 sold prices
+            avg_price = sum(prices[:5]) / min(len(prices), 5)
+            logging.info(f"Found eBay sold price for '{query}': £{avg_price:.2f}")
+            return round(avg_price, 2)
+        else:
+            logging.warning(f"No sold prices found for '{query}'")
+            return None
+            
+    except Exception as e:
+        logging.warning(f"Error fetching eBay prices for '{query}': {e}")
+        return None
+
 def scrape_lot_page(driver, link, index):
     try:
         driver.get(link)
@@ -365,22 +476,59 @@ def scrape_lot_page(driver, link, index):
                 time_val = iso.group(0)
 
     time_val = parse_time_string(time_val)
-    current_bid = extract_current_bid(driver)
+    current_bid_str = extract_current_bid(driver)
 
-    if DEBUG_SAVE_HTML and (not title or not current_bid):
+    if DEBUG_SAVE_HTML and (not title or not current_bid_str):
         with open(os.path.join(OUTPUT_DIR, f"debug_lot_{index}.html"), "w", encoding="utf-8") as fh:
             fh.write(driver.page_source)
 
     if not title:
         logging.warning(f"[{index}] Empty Title: {link}")
-    if not current_bid:
+    if not current_bid_str:
         logging.warning(f"[{index}] Empty Current Bid: {link}")
 
+    # Extract part number and make
+    part_number = extract_part_number(title)
+    make = extract_make(title)
+    
+    # Calculate adjusted price with fees
+    current_bid = 0.0
+    adjusted_price = 0.0
+    if current_bid_str:
+        try:
+            current_bid = float(current_bid_str)
+            adjusted_price = current_bid * FEE_MULTIPLIER
+        except ValueError:
+            logging.warning(f"[{index}] Could not convert bid to float: {current_bid_str}")
+    
+    # Get comparable price from eBay
+    comparable_price = get_ebay_sold_price(part_number, make, title)
+    
+    # Calculate profit metrics
+    profit_margin = 0.0
+    profit_amount = 0.0
+    highlight = "NO"
+    
+    if comparable_price and adjusted_price > 0:
+        profit_amount = comparable_price - adjusted_price
+        profit_margin = (profit_amount / adjusted_price) * 100 if adjusted_price > 0 else 0
+        
+        # Determine if item should be highlighted
+        if profit_margin >= (MIN_PROFIT_MARGIN * 100) or profit_amount >= MIN_PROFIT_AMOUNT:
+            highlight = "YES"
+    
     return {
         "Link": link,
         "Title": title,
-        "Time Remaining": time_val,
-        "Current Bid": current_bid,
+        "Part Number": part_number,
+        "Make": make,
+        "Current Bid": f"{current_bid:.2f}" if current_bid > 0 else "",
+        "Adjusted Price (with fees)": f"{adjusted_price:.2f}" if adjusted_price > 0 else "",
+        "Comparable Price": f"{comparable_price:.2f}" if comparable_price else "",
+        "Profit Margin %": f"{profit_margin:.2f}" if comparable_price else "",
+        "Profit Amount": f"{profit_amount:.2f}" if comparable_price else "",
+        "Highlight": highlight,
+        "Auction End Time": time_val,
         "Scraped At": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
     }
 
@@ -403,16 +551,37 @@ def scrape_search_term(term):
     finally:
         driver.quit()
 
+def parse_auction_end_time(time_str):
+    """
+    Parse auction end time string to datetime for sorting
+    """
+    if not time_str:
+        return datetime.max  # Put items without time at end
+    
+    try:
+        # Parse MM/DD/YYYY HH:MM:SS format
+        return datetime.strptime(time_str, "%m/%d/%Y %H:%M:%S")
+    except ValueError:
+        return datetime.max
+
 def save_csv(rows):
     if not rows:
         logging.warning("No rows to save.")
         return
+    
+    # Sort by auction end time (soonest first)
+    sorted_rows = sorted(rows, key=lambda x: parse_auction_end_time(x.get("Auction End Time", "")))
+    
     with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
         writer.writeheader()
-        for r in rows:
+        for r in sorted_rows:
             writer.writerow(r)
-    logging.info(f"Saved {len(rows)} rows to {OUTPUT_FILE}")
+    logging.info(f"Saved {len(sorted_rows)} rows to {OUTPUT_FILE} (sorted by auction end time)")
+    
+    # Print summary of highlighted items
+    highlighted = [r for r in sorted_rows if r.get("Highlight") == "YES"]
+    logging.info(f"Found {len(highlighted)} items meeting profit criteria (>50% margin OR >£50 profit)")
 
 def main():
     all_rows = []
