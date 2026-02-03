@@ -1,0 +1,201 @@
+{% comment %}
+  Article Template - Individual blog post
+{% endcomment %}
+
+<div class="section section--large">
+  <div class="container container--narrow">
+    <article>
+      <!-- Article Header -->
+      <header style="text-align: center; margin-bottom: 3rem;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">{{ article.title }}</h1>
+        
+        <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; font-size: 1.125rem; color: var(--color-text-light); margin-bottom: 2rem;">
+          <span>📅 {{ article.published_at | date: '%B %d, %Y' }}</span>
+          <span>✍️ {{ article.author }}</span>
+          {% if article.tags.size > 0 %}
+            <span>🏷️ {{ article.tags | join: ', ' }}</span>
+          {% endif %}
+        </div>
+
+        {% if article.image %}
+          <div style="margin-bottom: 2rem; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">
+            <img 
+              src="{{ article.image | img_url: '1200x' }}" 
+              alt="{{ article.image.alt | escape }}"
+              style="width: 100%; height: auto;"
+            >
+          </div>
+        {% endif %}
+      </header>
+
+      <!-- Article Content -->
+      <div class="card">
+        <div style="font-size: 1.25rem; line-height: 1.8;">
+          {{ article.content }}
+        </div>
+      </div>
+
+      <!-- Article Tags -->
+      {% if article.tags.size > 0 %}
+        <div style="margin-top: 3rem;">
+          <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Tags:</h3>
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+            {% for tag in article.tags %}
+              <a 
+                href="{{ blog.url }}/tagged/{{ tag | handle }}" 
+                style="background-color: var(--color-background-light); padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1.125rem; color: var(--color-text); text-decoration: none; transition: all 0.2s ease;"
+              >
+                #{{ tag }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Share Buttons -->
+      <div class="card mt-3" style="background-color: var(--color-background-light);">
+        <h3 class="card__title">Share This Article</h3>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+          <a 
+            href="https://www.facebook.com/sharer/sharer.php?u={{ article.url | url_encode }}" 
+            target="_blank"
+            class="btn btn--secondary"
+          >
+            Facebook
+          </a>
+          <a 
+            href="https://twitter.com/intent/tweet?url={{ article.url | url_encode }}&text={{ article.title | url_encode }}" 
+            target="_blank"
+            class="btn btn--secondary"
+          >
+            Twitter
+          </a>
+          <a 
+            href="https://www.linkedin.com/shareArticle?mini=true&url={{ article.url | url_encode }}&title={{ article.title | url_encode }}" 
+            target="_blank"
+            class="btn btn--secondary"
+          >
+            LinkedIn
+          </a>
+          <a 
+            href="mailto:?subject={{ article.title | url_encode }}&body={{ article.url | url_encode }}" 
+            class="btn btn--secondary"
+          >
+            Email
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        {% if blog.previous_article %}
+          <a href="{{ blog.previous_article.url }}" class="btn btn--secondary">
+            ← Previous Article
+          </a>
+        {% else %}
+          <span></span>
+        {% endif %}
+
+        <a href="{{ blog.url }}" class="btn btn--secondary">
+          Back to Blog
+        </a>
+
+        {% if blog.next_article %}
+          <a href="{{ blog.next_article.url }}" class="btn btn--secondary">
+            Next Article →
+          </a>
+        {% else %}
+          <span></span>
+        {% endif %}
+      </div>
+
+      <!-- Comments Section -->
+      {% if blog.comments_enabled? %}
+        <div class="card mt-3">
+          <h3 class="card__title">Comments</h3>
+          {% if article.comments.size > 0 %}
+            {% for comment in article.comments %}
+              <div style="padding: 1.5rem; border-bottom: 1px solid var(--color-border); margin-bottom: 1rem;">
+                <div style="font-weight: 600; font-size: 1.125rem; margin-bottom: 0.5rem;">
+                  {{ comment.author }}
+                </div>
+                <div style="font-size: 1rem; color: var(--color-text-light); margin-bottom: 1rem;">
+                  {{ comment.created_at | date: '%B %d, %Y at %I:%M %p' }}
+                </div>
+                <div style="font-size: 1.125rem; line-height: 1.7;">
+                  {{ comment.content }}
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p class="card__content">No comments yet. Be the first to comment!</p>
+          {% endif %}
+
+          <!-- Comment Form -->
+          <form method="post" action="/comments" style="margin-top: 2rem;">
+            <input type="hidden" name="comment[article_id]" value="{{ article.id }}">
+            
+            <div class="form-group">
+              <label for="comment-author" class="form-label">Your Name *</label>
+              <input 
+                type="text" 
+                id="comment-author" 
+                name="comment[author]" 
+                class="form-input"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="comment-email" class="form-label">Email Address *</label>
+              <input 
+                type="email" 
+                id="comment-email" 
+                name="comment[email]" 
+                class="form-input"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="comment-body" class="form-label">Comment *</label>
+              <textarea 
+                id="comment-body" 
+                name="comment[body]" 
+                class="form-textarea"
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary">
+              Post Comment
+            </button>
+          </form>
+        </div>
+      {% endif %}
+    </article>
+
+    <!-- Related Articles -->
+    {% if blog.articles.size > 1 %}
+      <div class="card mt-3">
+        <h2 class="card__title" style="text-align: center;">Related Articles</h2>
+        <div class="grid grid--3 mt-2">
+          {% for related_article in blog.articles limit: 3 %}
+            {% unless related_article.id == article.id %}
+              <div style="text-align: center;">
+                <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">
+                  <a href="{{ related_article.url }}" style="color: var(--color-primary);">
+                    {{ related_article.title }}
+                  </a>
+                </h3>
+                <p style="font-size: 1rem; color: var(--color-text-light);">
+                  {{ related_article.published_at | date: '%B %d, %Y' }}
+                </p>
+              </div>
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>

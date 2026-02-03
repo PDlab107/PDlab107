@@ -1,0 +1,266 @@
+{% comment %}
+  Footer Section
+{% endcomment %}
+
+<style>
+  .footer {
+    background-color: #1f2937;
+    color: #e5e7eb;
+    padding: 4rem 0 2rem;
+    margin-top: 4rem;
+  }
+
+  .footer__container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer__column-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+
+  .footer__text {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .footer__links {
+    list-style: none;
+  }
+
+  .footer__link {
+    display: block;
+    padding: 0.75rem 0;
+    font-size: 1.125rem;
+    color: #e5e7eb;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer__link:hover {
+    color: #60a5fa;
+    text-decoration: underline;
+  }
+
+  .footer__contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer__contact-icon {
+    font-size: 1.75rem;
+    color: #60a5fa;
+  }
+
+  .footer__contact-text {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .footer__trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .footer__trust-badge {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    text-align: center;
+  }
+
+  .footer__copyright {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer__legal-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    list-style: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer__legal-links {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+</style>
+
+<footer class="footer" role="contentinfo">
+  <div class="footer__container">
+    <div class="footer__grid">
+      <!-- About Column -->
+      <div class="footer__column">
+        <h3 class="footer__column-title">Denture Fix Now</h3>
+        <p class="footer__text">
+          Professional acrylic denture repair service by post. We provide high-quality repairs with fast turnaround times, serving customers across the UK.
+        </p>
+        <div class="footer__trust-badges">
+          <div class="footer__trust-badge">
+            <span>✓</span> Fully Insured
+          </div>
+          <div class="footer__trust-badge">
+            <span>✓</span> Fast Service
+          </div>
+          <div class="footer__trust-badge">
+            <span>✓</span> Certified Experts
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links Column -->
+      <div class="footer__column">
+        <h3 class="footer__column-title">Quick Links</h3>
+        <ul class="footer__links">
+          <li><a href="/" class="footer__link">Home</a></li>
+          <li><a href="/pages/about" class="footer__link">About Us</a></li>
+          <li><a href="/pages/how-it-works" class="footer__link">How It Works</a></li>
+          <li><a href="/pages/services" class="footer__link">Services</a></li>
+          <li><a href="/pages/pricing" class="footer__link">Pricing</a></li>
+          <li><a href="/blogs/denture-care" class="footer__link">Blog</a></li>
+          <li><a href="/pages/contact" class="footer__link">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Services Column -->
+      <div class="footer__column">
+        <h3 class="footer__column-title">Our Services</h3>
+        <ul class="footer__links">
+          <li><a href="/pages/services#cracked-repair" class="footer__link">Cracked Denture Repair</a></li>
+          <li><a href="/pages/services#tooth-replacement" class="footer__link">Tooth Replacement</a></li>
+          <li><a href="/pages/services#reline" class="footer__link">Denture Reline</a></li>
+          <li><a href="/pages/services#cleaning" class="footer__link">Professional Cleaning</a></li>
+          <li><a href="/pages/services#adjustments" class="footer__link">Adjustments</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Column -->
+      <div class="footer__column">
+        <h3 class="footer__column-title">Contact Us</h3>
+        
+        {% if section.settings.phone_number != blank %}
+        <div class="footer__contact-item">
+          <span class="footer__contact-icon">📞</span>
+          <div class="footer__contact-text">
+            <strong>Phone:</strong><br>
+            <a href="tel:{{ section.settings.phone_number }}" class="footer__link" style="padding: 0;">
+              {{ section.settings.phone_number }}
+            </a>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if section.settings.email != blank %}
+        <div class="footer__contact-item">
+          <span class="footer__contact-icon">✉️</span>
+          <div class="footer__contact-text">
+            <strong>Email:</strong><br>
+            <a href="mailto:{{ section.settings.email }}" class="footer__link" style="padding: 0;">
+              {{ section.settings.email }}
+            </a>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if section.settings.address != blank %}
+        <div class="footer__contact-item">
+          <span class="footer__contact-icon">📍</span>
+          <div class="footer__contact-text">
+            <strong>Address:</strong><br>
+            {{ section.settings.address }}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if section.settings.hours != blank %}
+        <div class="footer__contact-item">
+          <span class="footer__contact-icon">🕐</span>
+          <div class="footer__contact-text">
+            <strong>Hours:</strong><br>
+            {{ section.settings.hours }}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copyright">
+        © {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+      </p>
+      <ul class="footer__legal-links">
+        <li><a href="/pages/privacy-policy" class="footer__link">Privacy Policy</a></li>
+        <li><a href="/pages/terms-of-service" class="footer__link">Terms of Service</a></li>
+        <li><a href="/pages/refund-policy" class="footer__link">Refund Policy</a></li>
+        <li><a href="/pages/shipping-policy" class="footer__link">Shipping Policy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "Phone Number",
+      "default": "+44 01269 845372"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email Address",
+      "default": "info@pdlab.co.uk"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Business Address",
+      "default": "Your Business Address\nCity, Postcode\nUnited Kingdom"
+    },
+    {
+      "type": "textarea",
+      "id": "hours",
+      "label": "Business Hours",
+      "default": "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday - Sunday: Closed"
+    }
+  ]
+}
+{% endschema %}

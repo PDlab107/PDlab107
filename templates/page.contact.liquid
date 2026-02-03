@@ -1,0 +1,341 @@
+{% comment %}
+  Contact Page Template
+  Features: Contact form, multiple contact methods, FAQ
+{% endcomment %}
+
+<div class="section section--large">
+  <div class="container">
+    <div class="section__header">
+      <h1>Contact Us</h1>
+      <p class="section__subtitle">We're here to help with all your denture repair needs</p>
+    </div>
+
+    <!-- Contact Methods -->
+    <div class="contact-methods mb-3">
+      <div class="contact-method">
+        <div class="contact-method__icon">📞</div>
+        <h3 class="contact-method__title">Phone</h3>
+        <a href="tel:+4401269845372" class="contact-method__link">
+          +44 01269 845372
+        </a>
+        <p style="margin-top: 0.5rem; font-size: 1rem; color: var(--color-text-light);">
+          Mon-Fri: 9am-5pm
+        </p>
+      </div>
+
+      <div class="contact-method">
+        <div class="contact-method__icon">✉️</div>
+        <h3 class="contact-method__title">Email</h3>
+        <a href="mailto:info@pdlab.co.uk" class="contact-method__link">
+          info@pdlab.co.uk
+        </a>
+        <p style="margin-top: 0.5rem; font-size: 1rem; color: var(--color-text-light);">
+          24-hour response time
+        </p>
+      </div>
+
+      <div class="contact-method">
+        <div class="contact-method__icon">💬</div>
+        <h3 class="contact-method__title">WhatsApp</h3>
+        <a href="https://wa.me/4401269845372" class="contact-method__link" target="_blank">
+          Message Us
+        </a>
+        <p style="margin-top: 0.5rem; font-size: 1rem; color: var(--color-text-light);">
+          Quick responses
+        </p>
+      </div>
+
+      <div class="contact-method">
+        <div class="contact-method__icon">📍</div>
+        <h3 class="contact-method__title">Address</h3>
+        <p class="contact-method__link" style="font-size: 1.125rem; color: var(--color-text);">
+          Denture Fix Now<br>
+          Your Address Here<br>
+          City, Postcode<br>
+          United Kingdom
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid--2" style="gap: 3rem; align-items: start;">
+      <!-- Contact Form -->
+      <div class="card">
+        <h2 class="card__title">Send Us a Message</h2>
+        <p class="card__content">
+          Fill out the form below and we'll get back to you within 24 hours.
+        </p>
+
+        <form action="/contact#contact-form" method="post" accept-charset="UTF-8" data-validate>
+          <input type="hidden" name="form_type" value="contact">
+          <input type="hidden" name="utf8" value="✓">
+
+          <div class="form-group">
+            <label for="contact-name" class="form-label">Your Name *</label>
+            <input 
+              type="text" 
+              id="contact-name" 
+              name="contact[name]" 
+              class="form-input" 
+              placeholder="John Smith"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email" class="form-label">Email Address *</label>
+            <input 
+              type="email" 
+              id="contact-email" 
+              name="contact[email]" 
+              class="form-input" 
+              placeholder="your.email@example.com"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="contact-phone" class="form-label">Phone Number</label>
+            <input 
+              type="tel" 
+              id="contact-phone" 
+              name="contact[phone]" 
+              class="form-input" 
+              placeholder="+44 01269 845372"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="contact-subject" class="form-label">Subject *</label>
+            <select id="contact-subject" name="contact[subject]" class="form-select" required>
+              <option value="">Select a subject</option>
+              <option value="general-inquiry">General Inquiry</option>
+              <option value="quote-request">Request a Quote</option>
+              <option value="order-status">Order Status</option>
+              <option value="technical-question">Technical Question</option>
+              <option value="complaint">Complaint or Issue</option>
+              <option value="feedback">Feedback</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message" class="form-label">Message *</label>
+            <textarea 
+              id="contact-message" 
+              name="contact[body]" 
+              class="form-textarea" 
+              placeholder="Tell us how we can help you..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-file" class="form-label">Attach Photos (Optional)</label>
+            <input 
+              type="file" 
+              id="contact-file" 
+              accept="image/*" 
+              multiple
+              class="form-input"
+              style="padding: 1rem;"
+            >
+            <p style="font-size: 1rem; color: var(--color-text-light); margin-top: 0.5rem;">
+              Upload photos of your dentures to help us provide an accurate quote
+            </p>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--large" style="width: 100%;">
+            Send Message
+          </button>
+
+          <p style="font-size: 1rem; color: var(--color-text-light); margin-top: 1rem; text-align: center;">
+            We typically respond within 24 hours
+          </p>
+        </form>
+      </div>
+
+      <!-- Quick Info & Trust Signals -->
+      <div>
+        <div class="card mb-2">
+          <h3 class="card__title">Why Contact Us?</h3>
+          <ul style="font-size: 1.125rem; line-height: 2; margin-left: 2rem;">
+            <li>Get a free, no-obligation quote</li>
+            <li>Ask questions about our services</li>
+            <li>Check on your order status</li>
+            <li>Get expert advice on denture care</li>
+            <li>Schedule a collection service</li>
+            <li>Request express processing</li>
+          </ul>
+        </div>
+
+        <div class="card mb-2" style="background-color: #eff6ff; border-left: 4px solid var(--color-primary);">
+          <h3 class="card__title" style="color: var(--color-primary);">⚡ Fast Response Times</h3>
+          <p class="card__content">
+            <strong>Phone:</strong> Immediate during business hours<br>
+            <strong>Email:</strong> Within 24 hours<br>
+            <strong>WhatsApp:</strong> Within 2-4 hours<br>
+            <strong>Contact Form:</strong> Within 24 hours
+          </p>
+        </div>
+
+        <div class="card" style="background-color: #ecfdf5; border-left: 4px solid var(--color-secondary);">
+          <h3 class="card__title" style="color: var(--color-secondary);">🔒 Your Privacy Matters</h3>
+          <p class="card__content">
+            All information you provide is treated with strict confidentiality. We never share your personal details with third parties.
+          </p>
+          <a href="/pages/privacy-policy" style="font-size: 1.125rem; color: var(--color-secondary); font-weight: 600;">
+            Read our Privacy Policy →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="card mt-3 mb-3">
+      <h2 class="card__title" style="text-align: center;">Frequently Asked Questions</h2>
+      <p class="card__content" style="text-align: center; margin-bottom: 2rem;">
+        Quick answers to common questions
+      </p>
+
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-question">
+            How long does denture repair take?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Most repairs are completed within 2-3 working days from when we receive your dentures. Including postage time, the entire process typically takes 5-7 working days. Express next-day service is available for urgent repairs.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I ship my dentures securely?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            We provide prepaid, fully insured postage labels with detailed packaging instructions. Simply wrap your dentures in bubble wrap, place them in a sturdy box, and use our tracked shipping service. We can also arrange home collection for an additional fee.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            How much does denture repair cost?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Prices start from £35 for professional cleaning and go up to £150 for emergency repairs. Basic crack repairs start at £50, tooth replacement at £65, and relines at £80. All prices include free, fully insured postage both ways. Upload photos for an accurate quote.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            What if I need my dentures urgently?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            We offer express service with next-day turnaround for an additional £20. Call us immediately to arrange priority processing and expedited shipping both ways.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Do you repair all types of dentures?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            We specialize in acrylic denture repairs. This includes full dentures, partial dentures, and most common denture types. For metal framework or chrome dentures, please contact us first to confirm we can help.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            What's your guarantee policy?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            We offer a 30-day satisfaction guarantee on all repairs. If you're not completely happy with the work, we'll make it right or provide a full refund. All repairs are covered by our quality guarantee.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I track my dentures during shipping?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Yes! All shipments are tracked and fully insured. You'll receive tracking numbers for both journeys (to us and back to you) so you can follow your dentures in real-time.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            What payment methods do you accept?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            We accept all major credit and debit cards, PayPal, and bank transfers. For orders over £100, we can arrange flexible payment plans. Payment is required before we dispatch your repaired dentures.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Are you registered and certified?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Yes, our technicians are registered with the General Dental Council (GDC) and hold industry-recognized certifications. We comply with all UK medical device regulations and maintain full professional indemnity insurance.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            How do I get a quote before sending my dentures?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Simply upload clear photos of your dentures showing the damage and describe the problem. We'll provide a free, detailed quote within 24 hours. You can also call or email us for an estimate.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Emergency Contact -->
+    <div class="card" style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-left: 4px solid #dc2626;">
+      <h2 class="card__title" style="color: #dc2626;">🚨 Need Urgent Help?</h2>
+      <p class="card__content" style="font-size: 1.25rem;">
+        If you have an emergency denture repair need, call us immediately:
+      </p>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="tel:+4401269845372" class="btn btn--large" style="background-color: #dc2626; color: white; font-size: 1.5rem;">
+          📞 Call Now: +44 01269 845372
+        </a>
+      </div>
+      <p style="font-size: 1rem; color: var(--color-text-light); margin-top: 1rem; text-align: center;">
+        Available Monday-Friday, 9am-5pm GMT
+      </p>
+    </div>
+
+    <!-- Business Hours -->
+    <div class="card mt-3">
+      <h2 class="card__title" style="text-align: center;">Business Hours</h2>
+      <div style="max-width: 500px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--color-border); font-size: 1.125rem;">
+          <span><strong>Monday - Friday</strong></span>
+          <span>9:00 AM - 5:00 PM</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--color-border); font-size: 1.125rem;">
+          <span><strong>Saturday</strong></span>
+          <span>Closed</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 1rem 0; font-size: 1.125rem;">
+          <span><strong>Sunday</strong></span>
+          <span>Closed</span>
+        </div>
+      </div>
+      <p style="font-size: 1rem; color: var(--color-text-light); margin-top: 1.5rem; text-align: center;">
+        Email and online inquiries are monitored 24/7 and will be responded to on the next business day.
+      </p>
+    </div>
+  </div>
+</div>

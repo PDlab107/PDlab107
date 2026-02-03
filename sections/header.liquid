@@ -1,0 +1,209 @@
+{% comment %}
+  Header Section - Navigation and Logo
+{% endcomment %}
+
+<style>
+  .header {
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .header__container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header__logo {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .header__logo:hover {
+    color: var(--color-primary-dark);
+    text-decoration: none;
+  }
+
+  .header__nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .header__nav-link {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .header__nav-link:hover {
+    background-color: var(--color-background-light);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .header__nav-link--active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .header__cta {
+    padding: 1rem 2rem;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .header__cta:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+
+  .mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--color-text);
+  }
+
+  @media screen and (max-width: 968px) {
+    .header__nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: white;
+      flex-direction: column;
+      gap: 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 1rem 0;
+    }
+
+    .header__nav.active {
+      display: flex;
+    }
+
+    .header__nav-link {
+      width: 100%;
+      text-align: center;
+      padding: 1.25rem 2rem;
+      border-radius: 0;
+    }
+
+    .mobile-menu-toggle {
+      display: block;
+    }
+
+    .header__container {
+      position: relative;
+    }
+  }
+
+  .phone-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    color: var(--color-text);
+  }
+
+  .phone-header__icon {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+  }
+
+  .phone-header__number {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+</style>
+
+<header class="header" role="banner">
+  <div class="header__container">
+    <a href="/" class="header__logo">
+      {% if section.settings.logo %}
+        <img src="{{ section.settings.logo | img_url: '200x' }}" alt="{{ shop.name }}" style="max-height: 50px;">
+      {% else %}
+        Denture Fix Now
+      {% endif %}
+    </a>
+
+    <button class="mobile-menu-toggle" aria-label="Toggle menu">
+      ☰
+    </button>
+
+    <nav class="header__nav mobile-menu" role="navigation">
+      <a href="/" class="header__nav-link {% if template == 'index' %}header__nav-link--active{% endif %}">
+        Home
+      </a>
+      <a href="/pages/about" class="header__nav-link {% if page.handle == 'about' %}header__nav-link--active{% endif %}">
+        About Us
+      </a>
+      <a href="/pages/how-it-works" class="header__nav-link {% if page.handle == 'how-it-works' %}header__nav-link--active{% endif %}">
+        How It Works
+      </a>
+      <a href="/pages/services" class="header__nav-link {% if page.handle == 'services' %}header__nav-link--active{% endif %}">
+        Services
+      </a>
+      <a href="/pages/pricing" class="header__nav-link {% if page.handle == 'pricing' %}header__nav-link--active{% endif %}">
+        Pricing
+      </a>
+      <a href="/blogs/denture-care" class="header__nav-link {% if blog.handle == 'denture-care' %}header__nav-link--active{% endif %}">
+        Blog
+      </a>
+      <a href="/pages/contact" class="header__nav-link {% if page.handle == 'contact' %}header__nav-link--active{% endif %}">
+        Contact
+      </a>
+      
+      {% if section.settings.phone_number != blank %}
+      <div class="phone-header">
+        <span class="phone-header__icon">📞</span>
+        <a href="tel:{{ section.settings.phone_number }}" class="phone-header__number">
+          {{ section.settings.phone_number }}
+        </a>
+      </div>
+      {% endif %}
+
+      <a href="/pages/services" class="header__nav-link header__cta">
+        Get Started
+      </a>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "Phone Number",
+      "default": "+44 01269 845372"
+    }
+  ]
+}
+{% endschema %}
