@@ -8,7 +8,7 @@ An automated tool that searches John Pye auctions for automotive parts, compares
 - **Part Number & Brand Extraction**: Automatically extracts part numbers and brand names from auction titles
 - **Price Comparison**: Compares current auction prices with recent eBay sold listings for similar items
 - **Profit Analysis**: Calculates profit margins accounting for auction fees (1.5x multiplier)
-- **Smart Highlighting**: Identifies items with >50% profit margin OR >£50 profit (whichever is higher)
+- **Smart Highlighting**: Identifies items that meet either >50% profit margin OR >£50 profit threshold
 - **Sorted Results**: Results sorted by auction end time with soonest auctions at the top
 - **CSV Export**: Exports all data to CSV format for easy analysis
 
@@ -74,7 +74,7 @@ You can customize the behavior by editing variables at the top of `auction_searc
 
 ## Profit Criteria
 
-Items are highlighted as profitable if they meet **either** of these conditions:
+Items are highlighted as profitable if they meet **either** of these conditions (not necessarily the higher):
 - Profit margin ≥ 50% 
 - Profit amount ≥ £50
 

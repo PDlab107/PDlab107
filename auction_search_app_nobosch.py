@@ -559,12 +559,9 @@ def parse_auction_end_time(time_str):
         return datetime.max  # Put items without time at end
     
     try:
-        # Try MM/DD/YYYY HH:MM:SS format
-        if re.match(r"\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}", time_str):
-            return datetime.strptime(time_str, "%m/%d/%Y %H:%M:%S")
-        # Try other formats
+        # Parse MM/DD/YYYY HH:MM:SS format
         return datetime.strptime(time_str, "%m/%d/%Y %H:%M:%S")
-    except:
+    except ValueError:
         return datetime.max
 
 def save_csv(rows):
