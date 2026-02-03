@@ -1,4 +1,4 @@
-# Sample Blog Posts for PDlab Denture Repair
+# Sample Blog Posts for Denture Fix Now
 
 This file contains sample blog post content that you can use as templates for your blog. Copy and paste into Shopify's blog post editor.
 

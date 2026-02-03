@@ -1,5 +1,5 @@
 /**
- * PDlab Denture Repair - Theme JavaScript
+ * Denture Fix Now - Theme JavaScript
  * Senior-Friendly Interactive Features
  */
 

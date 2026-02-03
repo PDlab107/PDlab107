@@ -1,6 +1,6 @@
 # 🚀 Quick Start Guide
 
-**Welcome to your PDlab Denture Repair Shopify Theme!**
+**Welcome to your Denture Fix Now Shopify Theme!**
 
 This is the fastest way to get started. For detailed instructions, see [SETUP_GUIDE.md](SETUP_GUIDE.md).
 

@@ -1,11 +1,11 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "PDlab Denture Repair",
+    "theme_name": "Denture Fix Now",
     "theme_version": "1.0.0",
-    "theme_author": "PDlab",
-    "theme_documentation_url": "https://pdlab.co.uk",
-    "theme_support_url": "https://pdlab.co.uk/pages/contact"
+    "theme_author": "Denture Fix Now",
+    "theme_documentation_url": "https://denturefixnow.co.uk",
+    "theme_support_url": "https://denturefixnow.co.uk/pages/contact"
   },
   {
     "name": "General Settings",
@@ -112,7 +112,7 @@
         "type": "text",
         "id": "email",
         "label": "Email Address",
-        "default": "info@pdlab.co.uk"
+        "default": "info@denturefixnow.co.uk"
       },
       {
         "type": "textarea",

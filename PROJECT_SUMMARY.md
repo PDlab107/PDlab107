@@ -1,4 +1,4 @@
-# PDlab Denture Repair Website - Project Summary
+# Denture Fix Now Website - Project Summary
 
 ## 🎯 Project Goal
 Create a senior-friendly Shopify website for an acrylic denture repair service by post, optimized for ease of use, trust-building, SEO, and LLM discoverability.
@@ -10,7 +10,7 @@ A production-ready theme with 24 files totaling over 45,000 words of code and do
 
 ### File Structure Overview
 ```
-PDlab107/
+PDlab107/ (Repository structure)
 ├── 📁 assets/
 │   ├── theme.css (10KB) - Senior-friendly styling
 │   └── theme.js (8KB) - Interactive features
@@ -665,7 +665,7 @@ All files are production-ready and can be immediately:
 **Project Status:** ✅ COMPLETE
 
 **What Was Built:**
-A complete, production-ready Shopify theme specifically designed for PDlab Denture Repair service, optimized for senior users, search engines, and LLM assistants. Includes comprehensive documentation, sample content, and deployment checklists.
+A complete, production-ready Shopify theme specifically designed for Denture Fix Now service, optimized for senior users, search engines, and LLM assistants. Includes comprehensive documentation, sample content, and deployment checklists.
 
 **Total Effort:**
 - 24 files created

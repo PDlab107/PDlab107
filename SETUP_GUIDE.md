@@ -1,4 +1,4 @@
-# PDlab Denture Repair - Complete Setup Guide
+# Denture Fix Now - Complete Setup Guide
 
 This guide will walk you through setting up your Shopify website for the denture repair service.
 
@@ -37,7 +37,7 @@ Before you begin, you'll need:
 2. Click "Start free trial"
 3. Enter your email address
 4. Follow the setup wizard:
-   - Store name: "PDlab Denture Repair" (or your business name)
+   - Store name: "Denture Fix Now" (or your business name)
    - What will you sell: "Services"
    - Where will you sell: "United Kingdom"
 
@@ -52,7 +52,7 @@ After the trial:
 1. In Shopify Admin, go to: **Settings > Domains**
 2. Options:
    - **Buy new domain**: Purchase through Shopify
-   - **Connect existing domain**: If you already own pdlab.co.uk
+   - **Connect existing domain**: If you already own denturefixnow.co.uk
 3. Follow the instructions to connect your domain
 
 ---
@@ -78,7 +78,7 @@ After the trial:
    - Wait for upload to complete
 
 3. **Activate Theme**:
-   - Find "PDlab Denture Repair" in the theme library
+   - Find "Denture Fix Now" in the theme library
    - Click "Actions" > "Publish"
 
 ### Method 2: Using Shopify CLI (For Developers)
@@ -117,7 +117,7 @@ You need to create 8 main pages in Shopify Admin.
 - **Template**: `page.about`
 - **Visibility**: Visible
 - **Search engine listing**: 
-  - Title: "About PDlab Denture Repair - Expert Technicians"
+  - Title: "About Denture Fix Now - Expert Technicians"
   - Description: "Learn about our team, certifications, and commitment to quality denture repair services."
 
 #### Page 2: How It Works
@@ -145,7 +145,7 @@ You need to create 8 main pages in Shopify Admin.
 - **Title**: Contact
 - **Template**: `page.contact`
 - **Search engine listing**:
-  - Title: "Contact PDlab Denture Repair - Phone, Email, WhatsApp"
+  - Title: "Contact Denture Fix Now - Phone, Email, WhatsApp"
   - Description: "Get in touch with our denture repair experts. Phone, email, WhatsApp, and contact form available."
 
 #### Page 6: Privacy Policy
@@ -205,7 +205,7 @@ Go to: **Online Store > Themes > Customize**
 
 Fill in all contact details:
 - **Phone**: +44 123 456 7890 (your actual number)
-- **Email**: info@pdlab.co.uk (your actual email)
+- **Email**: info@denturefixnow.co.uk (your actual email)
 - **Address**: Your complete business address
 - **WhatsApp**: 441234567890 (your number without + or spaces)
 - **Business Hours**: Your actual hours
@@ -516,7 +516,7 @@ Optimize if needed:
 - Included in README.md file
 
 ### Contact for Theme Support
-- Email: info@pdlab.co.uk
+- Email: info@denturefixnow.co.uk
 - Phone: +44 123 456 7890
 
 ---
@@ -545,7 +545,7 @@ Optimize if needed:
 
 ## Conclusion
 
-Congratulations! Your PDlab Denture Repair website should now be live and ready to accept customer inquiries.
+Congratulations! Your Denture Fix Now website should now be live and ready to accept customer inquiries.
 
 Remember:
 - Keep content fresh with regular blog posts

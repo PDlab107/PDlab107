@@ -1,4 +1,4 @@
-# PDlab Denture Repair - Shopify Theme
+# Denture Fix Now - Shopify Theme
 
 A senior-friendly Shopify theme for an acrylic denture repair service by post. This theme is designed with accessibility, ease of use, and trust-building in mind.
 
@@ -300,17 +300,17 @@ Edit `assets/theme.js` to add:
 ## Support
 
 For questions or issues:
-- Email: info@pdlab.co.uk
+- Email: info@denturefixnow.co.uk
 - Phone: +44 123 456 7890
 - Documentation: [Your documentation URL]
 
 ## License
 
-This theme is proprietary and created for PDlab Denture Repair.
+This theme is proprietary and created for Denture Fix Now.
 
 ## Credits
 
-Developed for PDlab Denture Repair
+Developed for Denture Fix Now
 Theme Version: 1.0.0
 Last Updated: 2024
 

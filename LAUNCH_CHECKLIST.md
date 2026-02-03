@@ -1,4 +1,4 @@
-# PDlab Denture Repair - Launch Checklist
+# Denture Fix Now - Launch Checklist
 
 Use this checklist to ensure everything is set up correctly before launching your website.
 
@@ -6,7 +6,7 @@ Use this checklist to ensure everything is set up correctly before launching you
 
 - [ ] Shopify account created
 - [ ] Plan selected and payment set up
-- [ ] Domain name secured (pdlab.co.uk or similar)
+- [ ] Domain name secured (denturefixnow.co.uk or similar)
 - [ ] Business information ready (address, phone, email)
 - [ ] Logo designed and saved (200x50px PNG)
 - [ ] Business photos collected
@@ -142,7 +142,7 @@ Use this checklist to ensure everything is set up correctly before launching you
 - [ ] www and non-www versions redirect correctly
 
 ### Email
-- [ ] Professional email address set up (info@pdlab.co.uk)
+- [ ] Professional email address set up (info@denturefixnow.co.uk)
 - [ ] Email forwarding configured
 - [ ] Notification emails tested
 
@@ -395,7 +395,7 @@ Resolution: _________________________________
 - [ ] Content Manager
 - [ ] Marketing Lead
 
-**Congratulations on launching your PDlab Denture Repair website!** 🎉
+**Congratulations on launching your Denture Fix Now website!** 🎉
 
 Remember:
 - Keep content fresh
