@@ -19,6 +19,7 @@
     initSmoothScroll();
     initFormValidation();
     initImageUpload();
+    initAddToCart();
   }
 
   /**
@@ -270,5 +271,141 @@
 
   // Call accessibility improvements
   improveAccessibility();
+
+  /**
+   * Add to Cart functionality with AJAX
+   */
+  function initAddToCart() {
+    // Handle add to cart form submissions
+    document.addEventListener('submit', function(e) {
+      if (e.target.classList.contains('add-to-cart-form')) {
+        e.preventDefault();
+        handleAddToCart(e.target);
+      }
+    });
+
+    // Handle add to cart button clicks (for AJAX)
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('add-to-cart-btn') || e.target.closest('.add-to-cart-btn')) {
+        const button = e.target.classList.contains('add-to-cart-btn') ? e.target : e.target.closest('.add-to-cart-btn');
+        const form = button.closest('form');
+        if (form) {
+          e.preventDefault();
+          handleAddToCart(form);
+        }
+      }
+    });
+  }
+
+  function handleAddToCart(form) {
+    const formData = new FormData(form);
+    const button = form.querySelector('button[type="submit"], .add-to-cart-btn');
+    const originalText = button ? button.textContent : '';
+
+    // Disable button and show loading state
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Adding...';
+    }
+
+    // Use Shopify Cart API
+    fetch(window.theme.routes.cart_add_url, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (button) {
+        button.textContent = 'Added!';
+        button.style.backgroundColor = '#10b981';
+      }
+      
+      // Show success notification
+      showNotification('Product added to cart!', 'success');
+      
+      // Reset button after 2 seconds
+      setTimeout(function() {
+        if (button) {
+          button.disabled = false;
+          button.textContent = originalText;
+          button.style.backgroundColor = '';
+        }
+      }, 2000);
+
+      // Update cart count if exists
+      updateCartCount();
+    })
+    .catch(error => {
+      console.error('Error adding to cart:', error);
+      if (button) {
+        button.disabled = false;
+        button.textContent = originalText;
+      }
+      showNotification('Error adding to cart. Please try again.', 'error');
+    });
+  }
+
+  function showNotification(message, type) {
+    // Remove existing notifications
+    const existing = document.querySelector('.cart-notification');
+    if (existing) {
+      existing.remove();
+    }
+
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification cart-notification--' + type;
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.padding = '1.5rem 2rem';
+    notification.style.borderRadius = '8px';
+    notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+    notification.style.zIndex = '10000';
+    notification.style.fontSize = '1.125rem';
+    notification.style.fontWeight = '600';
+    notification.style.transition = 'all 0.3s ease';
+    
+    if (type === 'success') {
+      notification.style.backgroundColor = '#10b981';
+      notification.style.color = 'white';
+    } else {
+      notification.style.backgroundColor = '#dc2626';
+      notification.style.color = 'white';
+    }
+
+    document.body.appendChild(notification);
+
+    // Animate in
+    setTimeout(function() {
+      notification.style.transform = 'translateY(0)';
+    }, 10);
+
+    // Remove after 3 seconds
+    setTimeout(function() {
+      notification.style.opacity = '0';
+      notification.style.transform = 'translateY(-20px)';
+      setTimeout(function() {
+        notification.remove();
+      }, 300);
+    }, 3000);
+  }
+
+  function updateCartCount() {
+    // Fetch cart to get item count
+    fetch(window.theme.routes.cart_url + '.js')
+      .then(response => response.json())
+      .then(cart => {
+        const cartCountElements = document.querySelectorAll('.cart-count');
+        cartCountElements.forEach(function(element) {
+          element.textContent = cart.item_count;
+          if (cart.item_count > 0) {
+            element.style.display = 'inline-block';
+          }
+        });
+      })
+      .catch(error => console.error('Error updating cart count:', error));
+  }
 
 })();

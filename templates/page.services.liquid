@@ -1,6 +1,6 @@
 {% comment %}
   Services Page Template
-  Features: All denture repair services with pricing, descriptions, and image upload
+  Features: Shopify product integration with Add to Cart functionality
 {% endcomment %}
 
 <div class="section section--large">
@@ -9,6 +9,98 @@
       <h1>Our Denture Repair Services</h1>
       <p class="section__subtitle">Professional repairs for all types of acrylic dentures</p>
     </div>
+
+    {% comment %} 
+      Loop through products in the 'services' collection
+      Fallback to static content if collection doesn't exist yet
+    {% endcomment %}
+    
+    {% if collections['services'] and collections['services'].products.size > 0 %}
+      {% comment %} Dynamic product display from Shopify {% endcomment %}
+      {% for product in collections['services'].products %}
+        <div id="{{ product.handle }}" class="card mb-3" style="scroll-margin-top: 100px;">
+          <div class="grid grid--2" style="align-items: center;">
+            {% if forloop.index == 2 or forloop.index == 4 %}
+              {% comment %} Alternate layout - image first {% endcomment %}
+              <div style="background-color: var(--color-background-light); padding: 2rem; border-radius: 12px; text-align: center;">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | img_url: '400x' }}" alt="{{ product.title }}" style="max-width: 100%; border-radius: 8px;">
+                {% else %}
+                  <div style="font-size: 6rem; margin-bottom: 1rem;">🦷</div>
+                  <p style="font-size: 1.125rem; color: var(--color-text-light);">
+                    <strong>{{ product.title }}</strong><br>
+                    Professional service
+                  </p>
+                {% endif %}
+              </div>
+            {% endif %}
+            
+            <div>
+              <h2 class="card__title">{{ product.title }}</h2>
+              <div class="card__content">
+                {{ product.description }}
+              </div>
+              
+              <div style="margin-top: 2rem;">
+                <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">
+                  {{ product.price | money }}
+                </p>
+                
+                {% comment %} Add to Cart Form {% endcomment %}
+                <form action="/cart/add" method="post" class="add-to-cart-form">
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                  
+                  {% if product.variants.size > 1 %}
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                      <label class="form-label">Select Option:</label>
+                      <select name="id" class="form-input">
+                        {% for variant in product.variants %}
+                          <option value="{{ variant.id }}" {% if variant.available == false %}disabled{% endif %}>
+                            {{ variant.title }} - {{ variant.price | money }}
+                            {% unless variant.available %} (Sold Out){% endunless %}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {% endif %}
+                  
+                  {% comment %} Optional: Add special instructions field {% endcomment %}
+                  <div class="form-group" style="margin-bottom: 1rem;">
+                    <label class="form-label">Special Instructions (Optional):</label>
+                    <textarea name="properties[Instructions]" class="form-textarea" placeholder="Any specific requirements or notes about your repair..." style="min-height: 80px;"></textarea>
+                  </div>
+                  
+                  <button type="submit" class="btn btn--primary add-to-cart-btn" style="width: 100%;">
+                    {% if product.selected_or_first_available_variant.available %}
+                      Add to Cart
+                    {% else %}
+                      Sold Out
+                    {% endif %}
+                  </button>
+                </form>
+              </div>
+            </div>
+            
+            {% if forloop.index != 2 and forloop.index != 4 %}
+              {% comment %} Standard layout - image last {% endcomment %}
+              <div style="background-color: var(--color-background-light); padding: 2rem; border-radius: 12px; text-align: center;">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | img_url: '400x' }}" alt="{{ product.title }}" style="max-width: 100%; border-radius: 8px;">
+                {% else %}
+                  <div style="font-size: 6rem; margin-bottom: 1rem;">🦷</div>
+                  <p style="font-size: 1.125rem; color: var(--color-text-light);">
+                    <strong>{{ product.title }}</strong><br>
+                    Professional service
+                  </p>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      
+    {% else %}
+      {% comment %} Fallback static content with Add to Cart forms {% endcomment %}
 
     <!-- Service 1: Cracked Denture Repair -->
     <div id="cracked-repair" class="card mb-3" style="scroll-margin-top: 100px;">
@@ -32,7 +124,10 @@
             <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">
               From £50
             </p>
-            <a href="/pages/contact" class="btn btn--primary">Get a Free Quote</a>
+            <p style="font-size: 1rem; color: var(--color-text-light); margin-bottom: 1rem;">
+              <strong>Note:</strong> To add this service to your cart, please create products in your Shopify admin and add them to a collection named "services".
+            </p>
+            <a href="/collections/services" class="btn btn--primary">View in Shop</a>
           </div>
         </div>
         <div style="background-color: var(--color-background-light); padding: 2rem; border-radius: 12px; text-align: center;">
@@ -74,7 +169,10 @@
             <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">
               From £65 per tooth
             </p>
-            <a href="/pages/contact" class="btn btn--primary">Get a Free Quote</a>
+            <p style="font-size: 1rem; color: var(--color-text-light); margin-bottom: 1rem;">
+              <strong>Note:</strong> To add this service to your cart, please create products in your Shopify admin and add them to a collection named "services".
+            </p>
+            <a href="/collections/services" class="btn btn--primary">View in Shop</a>
           </div>
         </div>
       </div>
@@ -102,7 +200,10 @@
             <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">
               From £80
             </p>
-            <a href="/pages/contact" class="btn btn--primary">Get a Free Quote</a>
+            <p style="font-size: 1rem; color: var(--color-text-light); margin-bottom: 1rem;">
+              <strong>Note:</strong> To add this service to your cart, please create products in your Shopify admin and add them to a collection named "services".
+            </p>
+            <a href="/collections/services" class="btn btn--primary">View in Shop</a>
           </div>
         </div>
         <div style="background-color: var(--color-background-light); padding: 2rem; border-radius: 12px; text-align: center;">
@@ -144,7 +245,10 @@
             <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">
               From £35
             </p>
-            <a href="/pages/contact" class="btn btn--primary">Get a Free Quote</a>
+            <p style="font-size: 1rem; color: var(--color-text-light); margin-bottom: 1rem;">
+              <strong>Note:</strong> To add this service to your cart, please create products in your Shopify admin and add them to a collection named "services".
+            </p>
+            <a href="/collections/services" class="btn btn--primary">View in Shop</a>
           </div>
         </div>
       </div>
@@ -172,7 +276,10 @@
             <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">
               From £40
             </p>
-            <a href="/pages/contact" class="btn btn--primary">Get a Free Quote</a>
+            <p style="font-size: 1rem; color: var(--color-text-light); margin-bottom: 1rem;">
+              <strong>Note:</strong> To add this service to your cart, please create products in your Shopify admin and add them to a collection named "services".
+            </p>
+            <a href="/collections/services" class="btn btn--primary">View in Shop</a>
           </div>
         </div>
         <div style="background-color: var(--color-background-light); padding: 2rem; border-radius: 12px; text-align: center;">
@@ -184,47 +291,22 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
-    <!-- Image Upload Section -->
+    <!-- Optional: Additional Information Section -->
     <div class="card mb-3" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px solid var(--color-primary);">
-      <h2 class="card__title" style="text-align: center; color: var(--color-primary);">📸 Get an Instant Quote</h2>
+      <h2 class="card__title" style="text-align: center; color: var(--color-primary);">📸 Need Help Choosing?</h2>
       <p class="card__content" style="text-align: center; font-size: 1.25rem;">
-        Upload photos of your dentures and tell us what needs repairing. We'll provide a free, no-obligation quote within 24 hours.
+        Not sure which service you need? You can add special instructions or upload photos when you add items to your cart, or contact us for advice.
       </p>
-      
-      <form action="/pages/contact" method="get" style="max-width: 600px; margin: 2rem auto 0;">
-        <div class="form-group">
-          <label class="form-label">Your Name</label>
-          <input type="text" name="name" class="form-input" placeholder="Enter your name" required>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" name="email" class="form-input" placeholder="your.email@example.com" required>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Phone Number (Optional)</label>
-          <input type="tel" name="phone" class="form-input" placeholder="+44 123 456 7890">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Upload Photos of Your Dentures</label>
-          <input type="file" accept="image/*" multiple class="form-input" style="padding: 1rem;">
-          <p style="font-size: 1rem; color: var(--color-text-light); margin-top: 0.5rem;">
-            You can upload multiple photos. Clear images help us provide an accurate quote.
-          </p>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Describe the Problem</label>
-          <textarea name="description" class="form-textarea" placeholder="Tell us what's wrong with your dentures..." required></textarea>
-        </div>
-        
-        <button type="submit" class="btn btn--primary btn--large" style="width: 100%;">
-          Get Free Quote
-        </button>
-      </form>
+      <p class="card__content" style="text-align: center; font-size: 1.125rem;">
+        Each product has an "Special Instructions" field where you can describe your needs in detail. Our team will review your information and contact you if we need more details.
+      </p>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="/pages/contact" class="btn btn--secondary btn--large">
+          Contact Us for Advice
+        </a>
+      </div>
     </div>
 
     <!-- Service Comparison Table -->
@@ -309,10 +391,10 @@
     <div class="text-center mt-3">
       <h2 style="margin-bottom: 1.5rem;">Ready to Repair Your Dentures?</h2>
       <p style="font-size: 1.25rem; margin-bottom: 2rem;">
-        Get started with a free quote today
+        Add services to your cart and checkout securely
       </p>
-      <a href="/pages/contact" class="btn btn--primary btn--large" style="margin-right: 1rem;">
-        Get Free Quote
+      <a href="/cart" class="btn btn--primary btn--large" style="margin-right: 1rem;">
+        View Cart & Checkout
       </a>
       <a href="/pages/how-it-works" class="btn btn--secondary btn--large">
         How It Works
