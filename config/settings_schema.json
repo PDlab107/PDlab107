@@ -209,7 +209,7 @@
         "type": "text",
         "id": "hero_title",
         "label": "Hero Title",
-        "default": "Hassle-Free Acrylic Denture Repair Service by Post"
+        "default": "Hassle-Free Denture Repair Service by Post"
       },
       {
         "type": "textarea",
