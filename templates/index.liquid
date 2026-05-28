@@ -1,252 +1,292 @@
-{% comment %}
-  Homepage Template
-  Features: Hero banner, trust section, how it works, testimonials, CTA
-{% endcomment %}
-
-<!-- Hero Section -->
-<section class="hero">
+<section class="section section--large" style="background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%); color: #ffffff;">
   <div class="container">
-    <h1 class="hero__title">
-      Hassle-Free Denture Repair Service by Post
-    </h1>
-    <p class="hero__subtitle">
-      Professional quality repairs for your dentures, delivered straight to your home!<br>
-      Trusted by thousands of customers across the UK.
+    <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Web App for iPhone (Home Screen friendly)</p>
+    <h1 style="color: #ffffff; margin-bottom: 0.75rem;">20-Minute Muscle Growth & Toning Plan</h1>
+    <p style="max-width: 760px; font-size: 1.15rem; line-height: 1.6; margin-bottom: 0;">
+      Built for your profile (80kg, 5ft 10) with five different Monday–Friday sessions to keep training interesting while targeting hypertrophy.
+      Keep rest short (30–45 sec), train with control, and increase load/reps weekly.
     </p>
-    <div class="hero__cta">
-      <a href="/pages/services" class="btn btn--large" style="background-color: white; color: var(--color-primary); margin-right: 1rem;">
-        Repair My Dentures
-      </a>
-      <a href="/pages/how-it-works" class="btn btn--large" style="background-color: white; color: var(--color-primary);">
-        How It Works
-      </a>
-    </div>
   </div>
 </section>
 
-<!-- Trust Badges Section -->
-<section class="trust-badges">
-  <div class="trust-badge">
-    <div class="trust-badge__icon">⚡</div>
-    <h3 class="trust-badge__title">Fast Turnaround</h3>
-    <p class="trust-badge__description">2-3 day repair service</p>
-  </div>
-  <div class="trust-badge">
-    <div class="trust-badge__icon">✓</div>
-    <h3 class="trust-badge__title">Money-Back Guarantee</h3>
-    <p class="trust-badge__description">100% satisfaction guaranteed</p>
-  </div>
-  <div class="trust-badge">
-    <div class="trust-badge__icon">🔒</div>
-    <h3 class="trust-badge__title">Fully Insured Postage</h3>
-    <p class="trust-badge__description">Safe & secure delivery</p>
-  </div>
-  <div class="trust-badge">
-    <div class="trust-badge__icon">🏆</div>
-    <h3 class="trust-badge__title">Expert Technicians</h3>
-    <p class="trust-badge__description">Certified professionals</p>
-  </div>
-</section>
-
-<!-- How It Works Section -->
-<section class="section section--large bg-light">
+<section class="section" id="weekly-plan">
   <div class="container">
     <div class="section__header">
-      <h2>How Our Service Works</h2>
-      <p class="section__subtitle">Simple, quick, and hassle-free denture repair in 4 easy steps</p>
+      <h2>Weekly 20-Minute Split</h2>
+      <p class="section__subtitle">Dynamic sessions so each day feels different</p>
     </div>
 
-    <div class="steps">
-      <div class="step">
-        <div class="step__number">1</div>
-        <h3 class="step__title">Order Online</h3>
-        <p class="step__description">
-          Choose your repair service from our website. We offer free quotes based on photos of your dentures.
-        </p>
-      </div>
-
-      <div class="step">
-        <div class="step__number">2</div>
-        <h3 class="step__title">Send Your Dentures</h3>
-        <p class="step__description">
-          Use our prepaid postage service or follow our secure packaging instructions. Fully insured delivery included.
-        </p>
-      </div>
-
-      <div class="step">
-        <div class="step__number">3</div>
-        <h3 class="step__title">We Repair</h3>
-        <p class="step__description">
-          Our expert technicians repair, clean, polish, and sanitize your dentures to the highest standards.
-        </p>
-      </div>
-
-      <div class="step">
-        <div class="step__number">4</div>
-        <h3 class="step__title">Receive Your Dentures</h3>
-        <p class="step__description">
-          Your repaired dentures are posted back to you within 2-3 working days. Fast and reliable service!
-        </p>
-      </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+      <button class="btn btn--secondary workout-day-btn" data-day="monday">Monday: Push + Core</button>
+      <button class="btn btn--secondary workout-day-btn" data-day="tuesday">Tuesday: Legs + Glutes</button>
+      <button class="btn btn--secondary workout-day-btn" data-day="wednesday">Wednesday: Pull + Arms</button>
+      <button class="btn btn--secondary workout-day-btn" data-day="thursday">Thursday: Athletic Full Body</button>
+      <button class="btn btn--secondary workout-day-btn" data-day="friday">Friday: Pump + Finisher</button>
     </div>
 
-    <div class="text-center mt-3">
-      <a href="/pages/how-it-works" class="btn btn--primary btn--large">
-        Learn More About Our Process
-      </a>
-    </div>
+    <div id="day-workout-card" class="card" style="margin-top: 1.5rem;"></div>
   </div>
 </section>
 
-<!-- Services Overview Section -->
-<section class="section section--large">
+<section class="section bg-light">
   <div class="container">
     <div class="section__header">
-      <h2>Our Denture Repair Services</h2>
-      <p class="section__subtitle">Professional repairs for all types of acrylic dentures</p>
+      <h2>How-To Media (Pictures + Video)</h2>
+      <p class="section__subtitle">Visual guidance to improve form and safety</p>
     </div>
 
-    <div class="grid grid--3">
-      <div class="card">
-        <h3 class="card__title">🔧 Cracked Denture Repair</h3>
-        <p class="card__content">
-          High-quality repairs for cracked or broken dentures. Includes professional cleaning, polishing, and sanitizing.
-        </p>
-        <p style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary); margin: 1rem 0;">
-          From £50
-        </p>
-        <a href="/pages/services#cracked-repair" class="btn btn--secondary" style="width: 100%; margin-top: 1rem;">
-          View Details
-        </a>
-      </div>
-
-      <div class="card">
-        <h3 class="card__title">🦷 Tooth Replacement</h3>
-        <p class="card__content">
-          Replace broken or missing teeth on your dentures. Color-matched for a natural appearance.
-        </p>
-        <p style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary); margin: 1rem 0;">
-          From £65
-        </p>
-        <a href="/pages/services#tooth-replacement" class="btn btn--secondary" style="width: 100%; margin-top: 1rem;">
-          View Details
-        </a>
-      </div>
-
-      <div class="card">
-        <h3 class="card__title">✨ Denture Reline</h3>
-        <p class="card__content">
-          Improve the fit of your dentures with professional relining services for maximum comfort.
-        </p>
-        <p style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary); margin: 1rem 0;">
-          From £80
-        </p>
-        <a href="/pages/services#reline" class="btn btn--secondary" style="width: 100%; margin-top: 1rem;">
-          View Details
-        </a>
-      </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=900&q=80" alt="Person doing dumbbell chest press" style="width: 100%; border-radius: 8px; margin-bottom: 0.75rem;">
+        <h3 class="card__title">Pressing Form</h3>
+        <p class="card__content">Keep shoulders packed and lower slowly to maximize chest and triceps growth.</p>
+      </article>
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=900&q=80" alt="Person doing squat exercise" style="width: 100%; border-radius: 8px; margin-bottom: 0.75rem;">
+        <h3 class="card__title">Squat Mechanics</h3>
+        <p class="card__content">Drive knees over toes and keep chest proud for strong, safe leg sessions.</p>
+      </article>
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80" alt="Person doing pull exercise" style="width: 100%; border-radius: 8px; margin-bottom: 0.75rem;">
+        <h3 class="card__title">Pulling Control</h3>
+        <p class="card__content">Lead with elbows and pause at the top to increase back activation.</p>
+      </article>
     </div>
 
-    <div class="text-center mt-3">
-      <a href="/pages/services" class="btn btn--primary btn--large">
-        View All Services
-      </a>
+    <div style="margin-top: 1.25rem; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);">
+      <iframe id="video-guide" title="Workout technique video" src="https://www.youtube.com/embed/U0bhE67HuDY" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
   </div>
 </section>
 
-<!-- Testimonials Section -->
-<section class="section section--large bg-light">
+<section class="section section--large" id="tracking">
   <div class="container">
     <div class="section__header">
-      <h2>What Our Customers Say</h2>
-      <p class="section__subtitle">Trusted by thousands of satisfied customers</p>
+      <h2>Embedded Results Tracking</h2>
+      <p class="section__subtitle">Save sessions on-device (local browser storage)</p>
     </div>
 
-    <div class="grid grid--3">
-      <div class="testimonial">
-        <div class="testimonial__rating">⭐⭐⭐⭐⭐</div>
-        <p class="testimonial__text">
-          "Excellent service! My dentures were repaired perfectly and returned within 3 days. The quality is outstanding and the price was very reasonable."
-        </p>
-        <p class="testimonial__author">— Margaret T., London</p>
-      </div>
+    <div class="card" style="margin-bottom: 1rem;">
+      <form id="workout-log-form" style="display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); align-items: end;">
+        <div>
+          <label for="log-day"><strong>Day</strong></label>
+          <select id="log-day" required style="width: 100%; padding: 0.6rem; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 0.3rem;">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+          </select>
+        </div>
+        <div>
+          <label for="log-rpe"><strong>Effort (RPE 1-10)</strong></label>
+          <input id="log-rpe" type="number" min="1" max="10" value="8" required style="width: 100%; padding: 0.6rem; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 0.3rem;">
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label for="log-notes"><strong>Notes</strong></label>
+          <input id="log-notes" type="text" placeholder="Example: Added 2 reps on incline push-ups" style="width: 100%; padding: 0.6rem; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 0.3rem;">
+        </div>
+        <div>
+          <button type="submit" class="btn btn--primary" style="width: 100%;">Save Workout</button>
+        </div>
+        <div>
+          <button type="button" id="clear-logs" class="btn btn--secondary" style="width: 100%;">Clear Logs</button>
+        </div>
+      </form>
+    </div>
 
-      <div class="testimonial">
-        <div class="testimonial__rating">⭐⭐⭐⭐⭐</div>
-        <p class="testimonial__text">
-          "I was worried about sending my dentures by post, but the process was so easy and secure. They came back looking brand new. Highly recommend!"
-        </p>
-        <p class="testimonial__author">— John D., Manchester</p>
-      </div>
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3 class="card__title">Weekly Summary</h3>
+      <p id="summary-output" class="card__content" style="margin-bottom: 0;"></p>
+    </div>
 
-      <div class="testimonial">
-        <div class="testimonial__rating">⭐⭐⭐⭐⭐</div>
-        <p class="testimonial__text">
-          "Professional, friendly, and fast service. The team went above and beyond to ensure my dentures were repaired quickly. Thank you!"
-        </p>
-        <p class="testimonial__author">— Patricia W., Birmingham</p>
+    <div class="card">
+      <h3 class="card__title">Session History</h3>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; min-width: 540px;">
+          <thead>
+            <tr style="background: #f3f4f6;">
+              <th style="text-align: left; padding: 0.6rem;">Date</th>
+              <th style="text-align: left; padding: 0.6rem;">Day</th>
+              <th style="text-align: left; padding: 0.6rem;">RPE</th>
+              <th style="text-align: left; padding: 0.6rem;">Notes</th>
+            </tr>
+          </thead>
+          <tbody id="log-table-body"></tbody>
+        </table>
       </div>
     </div>
+
+    <p style="margin-top: 1rem; color: #6b7280;">Note: For safety, consult a qualified coach or clinician before starting a new program.</p>
   </div>
 </section>
 
-<!-- Why Choose Us Section -->
-<section class="section section--large">
-  <div class="container">
-    <div class="section__header">
-      <h2>Why Choose Denture Fix Now?</h2>
-      <p class="section__subtitle">Your trusted partner for denture care</p>
-    </div>
+<script>
+  (function() {
+    const workoutData = {
+      monday: {
+        title: 'Monday: Push + Core (20 min)',
+        focus: 'Chest, shoulders, triceps, abs',
+        video: 'https://www.youtube.com/embed/U0bhE67HuDY',
+        structure: [
+          'Warm-up (2 min): Arm circles + shoulder taps',
+          'Circuit A x 3 rounds (12 min): 10 push-ups, 10 dumbbell shoulder presses, 12 bench dips',
+          'Core finisher (4 min): 30s plank, 12 dead bugs, 20 mountain climbers',
+          'Cool down (2 min): Chest and triceps stretch'
+        ]
+      },
+      tuesday: {
+        title: 'Tuesday: Legs + Glutes (20 min)',
+        focus: 'Quads, hamstrings, glutes, calves',
+        video: 'https://www.youtube.com/embed/aclHkVaku9U',
+        structure: [
+          'Warm-up (2 min): Bodyweight good mornings + leg swings',
+          'Circuit A x 3 rounds (12 min): 12 goblet squats, 10 reverse lunges each side, 12 hip thrusts',
+          'Finisher (4 min): 20 jump squats (or bodyweight squats), 20 calf raises, repeat',
+          'Cool down (2 min): Hip flexor + hamstring stretch'
+        ]
+      },
+      wednesday: {
+        title: 'Wednesday: Pull + Arms (20 min)',
+        focus: 'Back, biceps, rear delts',
+        video: 'https://www.youtube.com/embed/eGo4IYlbE5g',
+        structure: [
+          'Warm-up (2 min): Scapular retractions + band pull-aparts',
+          'Circuit A x 3 rounds (12 min): 12 bent-over rows, 12 reverse flys, 10 biceps curls',
+          'Finisher (4 min): 30s iso row hold + 12 hammer curls x 2 rounds',
+          'Cool down (2 min): Lat and biceps stretch'
+        ]
+      },
+      thursday: {
+        title: 'Thursday: Athletic Full Body (20 min)',
+        focus: 'Power, coordination, conditioning',
+        video: 'https://www.youtube.com/embed/ml6cT4AZdqI',
+        structure: [
+          'Warm-up (2 min): Fast feet + inchworms',
+          'EMOM 12 min: Minute 1) 12 thrusters, Minute 2) 10 renegade rows, Minute 3) 12 alternating lunges',
+          'Finisher (4 min): 20 high knees + 8 burpees x 2 rounds',
+          'Cool down (2 min): Full-body mobility'
+        ]
+      },
+      friday: {
+        title: 'Friday: Upper Pump + Core Burn (20 min)',
+        focus: 'Shoulders, chest, back, abs',
+        video: 'https://www.youtube.com/embed/2pLT-olgUJs',
+        structure: [
+          'Warm-up (2 min): Jump rope simulation + shoulder rolls',
+          'Tri-set x 4 rounds (12 min): 12 incline push-ups, 12 lateral raises, 12 rows',
+          'Core finisher (4 min): 15 leg raises + 30s side plank each side x 2 rounds',
+          'Cool down (2 min): Thoracic and shoulder stretch'
+        ]
+      }
+    };
 
-    <div class="grid grid--2">
-      <div class="card">
-        <h3 class="card__title">🎓 Certified Professionals</h3>
-        <p class="card__content">
-          Our technicians are fully certified with years of experience in denture repair and restoration. We follow the highest industry standards.
-        </p>
-      </div>
+    const defaultDay = 'monday';
+    const workoutCard = document.getElementById('day-workout-card');
+    const videoGuide = document.getElementById('video-guide');
+    const dayButtons = document.querySelectorAll('.workout-day-btn');
 
-      <div class="card">
-        <h3 class="card__title">💎 Quality Materials</h3>
-        <p class="card__content">
-          We use only the highest quality materials for all repairs, ensuring durability and a natural appearance.
-        </p>
-      </div>
+    function renderDay(dayKey) {
+      const data = workoutData[dayKey] || workoutData[defaultDay];
+      workoutCard.innerHTML = `
+        <h3 class="card__title">${data.title}</h3>
+        <p class="card__content"><strong>Focus:</strong> ${data.focus}</p>
+        <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.65;">
+          ${data.structure.map(step => `<li>${step}</li>`).join('')}
+        </ul>
+      `;
 
-      <div class="card">
-        <h3 class="card__title">🚚 Free Postage</h3>
-        <p class="card__content">
-          Enjoy free, fully insured postage both ways on all orders. We make it safe and easy to send your dentures.
-        </p>
-      </div>
+      if (videoGuide) {
+        videoGuide.src = data.video;
+      }
 
-      <div class="card">
-        <h3 class="card__title">💰 Transparent Pricing</h3>
-        <p class="card__content">
-          No hidden fees or surprise charges. Get a free quote upfront and pay only for the services you need.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
+      dayButtons.forEach(btn => {
+        const active = btn.dataset.day === dayKey;
+        btn.style.backgroundColor = active ? '#2563eb' : '';
+        btn.style.color = active ? '#ffffff' : '';
+      });
+    }
 
-<!-- Final CTA Section -->
-<section class="section section--large" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white;">
-  <div class="container text-center">
-    <h2 style="color: white; font-size: 3rem; margin-bottom: 1.5rem;">
-      Ready to Repair Your Dentures?
-    </h2>
-    <p style="font-size: 1.5rem; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-      Get started today with our simple online ordering process. Professional repairs delivered to your door.
-    </p>
-    <div>
-      <a href="/pages/services" class="btn btn--large" style="background-color: white; color: var(--color-primary); margin-right: 1rem;">
-        Get Started Now
-      </a>
-      <a href="/pages/contact" class="btn btn--large btn--secondary" style="border-color: white; color: white;">
-        Contact Us
-      </a>
-    </div>
-  </div>
-</section>
+    dayButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        renderDay(this.dataset.day);
+      });
+    });
+
+    const form = document.getElementById('workout-log-form');
+    const clearButton = document.getElementById('clear-logs');
+    const tableBody = document.getElementById('log-table-body');
+    const summaryOutput = document.getElementById('summary-output');
+    const storageKey = 'muscle_plan_logs_v1';
+
+    function getLogs() {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey)) || [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function setLogs(logs) {
+      localStorage.setItem(storageKey, JSON.stringify(logs));
+    }
+
+    function updateSummary(logs) {
+      const sessionCount = logs.length;
+      const avgRpe = sessionCount ? (logs.reduce((sum, item) => sum + Number(item.rpe || 0), 0) / sessionCount).toFixed(1) : '0.0';
+      const daysHit = new Set(logs.map(item => item.day)).size;
+      summaryOutput.textContent = `Sessions logged: ${sessionCount} | Distinct days hit: ${daysHit}/5 | Average effort: ${avgRpe}/10`;
+    }
+
+    function renderLogs() {
+      const logs = getLogs();
+      if (!logs.length) {
+        tableBody.innerHTML = '<tr><td colspan="4" style="padding: 0.75rem; color: #6b7280;">No workouts logged yet.</td></tr>';
+      } else {
+        tableBody.innerHTML = logs
+          .slice()
+          .reverse()
+          .map(item => `
+            <tr>
+              <td style="padding: 0.6rem; border-top: 1px solid #e5e7eb;">${item.date}</td>
+              <td style="padding: 0.6rem; border-top: 1px solid #e5e7eb;">${item.day}</td>
+              <td style="padding: 0.6rem; border-top: 1px solid #e5e7eb;">${item.rpe}</td>
+              <td style="padding: 0.6rem; border-top: 1px solid #e5e7eb;">${item.notes || '-'}</td>
+            </tr>
+          `).join('');
+      }
+      updateSummary(logs);
+    }
+
+    if (form) {
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const day = document.getElementById('log-day').value;
+        const rpe = document.getElementById('log-rpe').value;
+        const notes = document.getElementById('log-notes').value.trim();
+
+        const logs = getLogs();
+        logs.push({
+          date: new Date().toLocaleDateString(),
+          day,
+          rpe,
+          notes
+        });
+        setLogs(logs);
+        form.reset();
+        document.getElementById('log-rpe').value = 8;
+        renderLogs();
+      });
+    }
+
+    if (clearButton) {
+      clearButton.addEventListener('click', function() {
+        localStorage.removeItem(storageKey);
+        renderLogs();
+      });
+    }
+
+    renderDay(defaultDay);
+    renderLogs();
+  })();
+</script>
