@@ -3,50 +3,50 @@ const workouts = {
     focus: "Push + chest/triceps (hypertrophy)",
     structure: "5 blocks x 4 mins = 20 mins. Work 40s, rest 20s.",
     exercises: [
-      { name: "Push-Up", plan: "4 rounds x 8-15 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif", video: "https://www.youtube.com/watch?v=IODxDxX7oi4" },
-      { name: "Dumbbell Floor Press", plan: "4 rounds x 10-12 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Floor-Press.gif", video: "https://www.youtube.com/watch?v=uUGDRwge4F8" },
-      { name: "Pike Push-Up", plan: "3 rounds x 8-12 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Pike-Push-Up.gif", video: "https://www.youtube.com/watch?v=qHQ_E-f5278" },
-      { name: "Chair Dips", plan: "3 rounds x 10-15 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/06/Bench-Dips.gif", video: "https://www.youtube.com/watch?v=6kALZikXxLc" }
+      { name: "Push-Up", plan: "4 rounds x 8-15 reps", how: "Hands under shoulders. Keep body straight. Chest to floor, then press up.", video: "https://www.youtube.com/watch?v=IODxDxX7oi4" },
+      { name: "Dumbbell Floor Press", plan: "4 rounds x 10-12 reps", how: "Lie on floor. Elbows 45°. Press dumbbells up, lower with control.", video: "https://www.youtube.com/watch?v=uUGDRwge4F8" },
+      { name: "Pike Push-Up", plan: "3 rounds x 8-12 reps", how: "Hips high in V-shape. Head moves forward/down between hands.", video: "https://www.youtube.com/watch?v=qHQ_E-f5278" },
+      { name: "Chair Dips", plan: "3 rounds x 10-15 reps", how: "Hands on chair edge. Lower until elbows 90°, push back up.", video: "https://www.youtube.com/watch?v=6kALZikXxLc" }
     ]
   },
   Tuesday: {
     focus: "Legs + glutes (strength + tone)",
     structure: "5 blocks x 4 mins = 20 mins. Work 45s, rest 15s.",
     exercises: [
-      { name: "Goblet Squat", plan: "4 rounds x 10-15 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Goblet-Squat.gif", video: "https://www.youtube.com/watch?v=6xwGFn-J_Qk" },
-      { name: "Romanian Deadlift", plan: "4 rounds x 10-12 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Romanian-Deadlift.gif", video: "https://www.youtube.com/watch?v=0zZ4x5h8N7Q" },
-      { name: "Reverse Lunge", plan: "3 rounds x 8-12 reps/leg", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Reverse-Lunge.gif", video: "https://www.youtube.com/watch?v=wrwwXE_x-pQ" },
-      { name: "Calf Raises", plan: "3 rounds x 15-20 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/05/Dumbbell-Calf-Raise.gif", video: "https://www.youtube.com/watch?v=-M4-G8p8fmc" }
+      { name: "Goblet Squat", plan: "4 rounds x 10-15 reps", how: "Hold one dumbbell at chest. Sit hips down/back, drive through heels.", video: "https://www.youtube.com/watch?v=6xwGFn-J_Qk" },
+      { name: "Romanian Deadlift", plan: "4 rounds x 10-12 reps", how: "Soft knees. Hinge hips back. Keep back flat. Stand tall.", video: "https://www.youtube.com/watch?v=0zZ4x5h8N7Q" },
+      { name: "Reverse Lunge", plan: "3 rounds x 8-12 reps/leg", how: "Step backward, lower both knees, push through front foot.", video: "https://www.youtube.com/watch?v=wrwwXE_x-pQ" },
+      { name: "Calf Raises", plan: "3 rounds x 15-20 reps", how: "Rise to toes, pause 1 sec at top, lower slowly.", video: "https://www.youtube.com/watch?v=-M4-G8p8fmc" }
     ]
   },
   Wednesday: {
     focus: "Back + biceps + core",
     structure: "5 blocks x 4 mins = 20 mins. Work 40s, rest 20s.",
     exercises: [
-      { name: "One-Arm Row", plan: "4 rounds x 10-12 reps/arm", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/One-Arm-Dumbbell-Row.gif", video: "https://www.youtube.com/watch?v=pYcpY20QaE8" },
-      { name: "Band or Towel Row", plan: "4 rounds x 12-15 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/06/Inverted-Row.gif", video: "https://www.youtube.com/watch?v=rloXYB8M3vU" },
-      { name: "Hammer Curl", plan: "3 rounds x 10-12 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif", video: "https://www.youtube.com/watch?v=zC3nLlEvin4" },
-      { name: "Dead Bug", plan: "3 rounds x 30-40 sec", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dead-Bug.gif", video: "https://www.youtube.com/watch?v=4XLEnwUr8Hw" }
+      { name: "One-Arm Row", plan: "4 rounds x 10-12 reps/arm", how: "Support one hand. Pull elbow to hip. Squeeze upper back.", video: "https://www.youtube.com/watch?v=pYcpY20QaE8" },
+      { name: "Band or Towel Row", plan: "4 rounds x 12-15 reps", how: "Chest up. Pull to ribs. Control the return slowly.", video: "https://www.youtube.com/watch?v=rloXYB8M3vU" },
+      { name: "Hammer Curl", plan: "3 rounds x 10-12 reps", how: "Neutral grip, elbows close, curl up without swinging.", video: "https://www.youtube.com/watch?v=zC3nLlEvin4" },
+      { name: "Dead Bug", plan: "3 rounds x 30-40 sec", how: "Lower back pressed to floor while opposite arm/leg extends.", video: "https://www.youtube.com/watch?v=4XLEnwUr8Hw" }
     ]
   },
   Thursday: {
     focus: "Upper-body density (fast pace)",
     structure: "Circuit style for 20 mins. Minimal rest.",
     exercises: [
-      { name: "Incline Push-Up", plan: "12 reps per round", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Push-Up.gif", video: "https://www.youtube.com/watch?v=cfns5VDVVvk" },
-      { name: "Arnold Press", plan: "10 reps per round", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Arnold-Press.gif", video: "https://www.youtube.com/watch?v=vj2w851ZHRM" },
-      { name: "Lateral Raise", plan: "12 reps per round", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif", video: "https://www.youtube.com/watch?v=3VcKaXpzqRo" },
-      { name: "Plank Shoulder Tap", plan: "20 taps total", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Shoulder-Tap-Push-up.gif", video: "https://www.youtube.com/watch?v=Hdz2S2B-g4Y" }
+      { name: "Incline Push-Up", plan: "12 reps per round", how: "Hands on bench/counter. Lower chest to edge. Press up strong.", video: "https://www.youtube.com/watch?v=cfns5VDVVvk" },
+      { name: "Arnold Press", plan: "10 reps per round", how: "Start palms in, rotate out as dumbbells press overhead.", video: "https://www.youtube.com/watch?v=vj2w851ZHRM" },
+      { name: "Lateral Raise", plan: "12 reps per round", how: "Raise arms to shoulder height with slight elbow bend.", video: "https://www.youtube.com/watch?v=3VcKaXpzqRo" },
+      { name: "Plank Shoulder Tap", plan: "20 taps total", how: "Wide feet, hips level, tap opposite shoulder each rep.", video: "https://www.youtube.com/watch?v=Hdz2S2B-g4Y" }
     ]
   },
   Friday: {
     focus: "Full body finisher day",
     structure: "EMOM style for 20 mins: 5 movements x 4 rounds.",
     exercises: [
-      { name: "Thruster", plan: "8-12 reps", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Thruster.gif", video: "https://www.youtube.com/watch?v=L219ltL15zk" },
-      { name: "Step-Up", plan: "10 reps/leg", image: "https://fitnessprogramer.com/wp-content/uploads/2021/05/Dumbbell-Step-up.gif", video: "https://www.youtube.com/watch?v=aajhW7DD1EA" },
-      { name: "Renegade Row", plan: "8-10 reps/side", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Renegade-Row.gif", video: "https://www.youtube.com/watch?v=roCP6wCXPqo" },
-      { name: "Hollow Hold", plan: "25-40 sec", image: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Hollow-Hold.gif", video: "https://www.youtube.com/watch?v=4xRpGgttca8" }
+      { name: "Thruster", plan: "8-12 reps", how: "Front squat into overhead press in one smooth movement.", video: "https://www.youtube.com/watch?v=L219ltL15zk" },
+      { name: "Step-Up", plan: "10 reps/leg", how: "Full foot on box/chair. Drive up through working leg.", video: "https://www.youtube.com/watch?v=aajhW7DD1EA" },
+      { name: "Renegade Row", plan: "8-10 reps/side", how: "Plank with dumbbells. Row one side while hips stay square.", video: "https://www.youtube.com/watch?v=roCP6wCXPqo" },
+      { name: "Hollow Hold", plan: "25-40 sec", how: "Lower back glued to floor, arms overhead, legs extended.", video: "https://www.youtube.com/watch?v=4xRpGgttca8" }
     ]
   }
 };
@@ -107,9 +107,10 @@ function renderDay() {
         </div>
         <p class="exercise-plan">${exercise.plan}</p>
         <div class="media-row">
-          <img src="${exercise.image}" alt="${exercise.name} demonstration">
+            <img src="${instructionImageData(exercise.name, exercise.how)}" alt="${exercise.name} quick instruction card">
           <a href="${exercise.video}" target="_blank" rel="noopener noreferrer">Watch quick form video</a>
         </div>
+          <p class="exercise-plan"><strong>How:</strong> ${exercise.how}</p>
       </article>
     `).join("");
 
@@ -127,6 +128,25 @@ function renderDay() {
         </div>
       </div>
     `).join("");
+}
+
+function instructionImageData(name, how) {
+  const safeName = name.replace(/[<>&]/g, "");
+  const safeHow = how.replace(/[<>&]/g, "");
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="320" height="240">
+      <rect width="320" height="240" fill="#0f1b34"/>
+      <rect x="10" y="10" width="300" height="220" rx="14" fill="#152448" stroke="#4aa3ff"/>
+      <text x="20" y="38" fill="#eaf2ff" font-size="18" font-family="Arial" font-weight="700">${safeName}</text>
+      <text x="20" y="70" fill="#b9d6ff" font-size="15" font-family="Arial">Movement cue:</text>
+      <text x="20" y="94" fill="#d4e7ff" font-size="14" font-family="Arial">${safeHow.slice(0, 38)}</text>
+      <text x="20" y="116" fill="#d4e7ff" font-size="14" font-family="Arial">${safeHow.slice(38, 76)}</text>
+      <text x="20" y="138" fill="#d4e7ff" font-size="14" font-family="Arial">${safeHow.slice(76, 114)}</text>
+      <circle cx="260" cy="170" r="30" fill="#22c55e"/>
+      <polygon points="250,155 250,185 278,170" fill="#071a0f"/>
+      <text x="20" y="200" fill="#9ec8ff" font-size="12" font-family="Arial">Tap video link for full demo</text>
+    </svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
 function renderTimer() {
@@ -185,17 +205,33 @@ function renderSummary() {
 function renderHistory() {
   const logs = getLogs().sort((a, b) => b.date.localeCompare(a.date)).slice(0, 12);
   if (!logs.length) {
-    dom.historyList.innerHTML = `<p class="muted">No saved sessions yet. Do your first workout and tap "Save session".</p>`;
+    const empty = document.createElement("p");
+    empty.className = "muted";
+    empty.textContent = 'No saved sessions yet. Do your first workout and tap "Save session".';
+    dom.historyList.replaceChildren(empty);
     return;
   }
 
-  dom.historyList.innerHTML = logs.map((log) => `
-    <article class="history-item">
-      <strong>${log.date} — ${log.day}</strong>
-      <div class="muted">Body weight: ${log.bodyWeight || "-"} kg | Energy: ${log.energy}/5</div>
-      <div class="muted">${log.notes || "No notes."}</div>
-    </article>
-  `).join("");
+  const historyNodes = logs.map((log) => {
+    const article = document.createElement("article");
+    article.className = "history-item";
+
+    const title = document.createElement("strong");
+    title.textContent = `${log.date} — ${log.day}`;
+
+    const stats = document.createElement("div");
+    stats.className = "muted";
+    stats.textContent = `Body weight: ${log.bodyWeight || "-"} kg | Energy: ${log.energy}/5`;
+
+    const notes = document.createElement("div");
+    notes.className = "muted";
+    notes.textContent = log.notes || "No notes.";
+
+    article.append(title, stats, notes);
+    return article;
+  });
+
+  dom.historyList.replaceChildren(...historyNodes);
 }
 
 function saveSession(event) {
