@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Parts Checker" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <title>UK Vehicle Parts Checker</title>
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f0f1a;
+      --surface:   #1a1a2e;
+      --card:      #16213e;
+      --accent:    #e8b800;
+      --accent2:   #00b4d8;
+      --success:   #22c55e;
+      --danger:    #ef4444;
+      --warning:   #f97316;
+      --text:      #f1f5f9;
+      --muted:     #94a3b8;
+      --border:    rgba(255,255,255,0.08);
+      --radius:    14px;
+      --shadow:    0 4px 24px rgba(0,0,0,0.5);
+    }
+
+    html { height: 100%; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100%;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── App Shell ─────────────────────────────────────── */
+    .app { max-width: 480px; margin: 0 auto; padding: 0 0 80px; }
+
+    /* ─── Header ─────────────────────────────────────────── */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 20px 14px;
+      position: sticky; top: 0; z-index: 100;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+    .header-top { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon {
+      width: 36px; height: 36px; background: var(--accent);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .logo-text { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+    .logo-sub { font-size: 11px; color: var(--muted); }
+    .settings-btn {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ─── Main Content ────────────────────────────────────── */
+    .content { padding: 20px 16px; }
+
+    /* ─── Card ───────────────────────────────────────────── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+    .card-title {
+      font-size: 13px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--muted); margin-bottom: 16px;
+    }
+
+    /* ─── UK Reg Plate Input ─────────────────────────────── */
+    .reg-plate-wrap { position: relative; margin-bottom: 16px; }
+    .reg-plate {
+      width: 100%; padding: 16px 20px;
+      background: #ffd700;
+      color: #000;
+      border: 3px solid #e6c200;
+      border-radius: 10px;
+      font-size: 28px;
+      font-weight: 800;
+      font-family: "UKNumberPlate", "Charles Wright", "Arial Black", Arial, sans-serif;
+      text-align: center;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      outline: none;
+      -webkit-appearance: none;
+      caret-color: #000;
+    }
+    .reg-plate::placeholder { color: rgba(0,0,0,0.35); letter-spacing: 2px; }
+    .reg-plate:focus { border-color: #c9a800; box-shadow: 0 0 0 3px rgba(255,215,0,0.3); }
+
+    /* ─── Part Number Input ──────────────────────────────── */
+    .part-input {
+      width: 100%; padding: 14px 16px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      outline: none;
+      -webkit-appearance: none;
+      transition: border-color 0.2s;
+    }
+    .part-input::placeholder { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
+    .part-input:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(0,180,216,0.2); }
+    .input-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+
+    /* ─── Check Button ───────────────────────────────────── */
+    .check-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--accent) 0%, #f0c520 100%);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      letter-spacing: 0.3px;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .check-btn:active { opacity: 0.85; transform: scale(0.98); }
+    .check-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .check-btn .btn-icon { margin-right: 8px; }
+
+    /* ─── Loader ─────────────────────────────────────────── */
+    .loader {
+      display: none;
+      text-align: center;
+      padding: 32px 20px;
+    }
+    .loader.active { display: block; }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-text { color: var(--muted); font-size: 14px; }
+
+    /* ─── Result Panel ───────────────────────────────────── */
+    .result-panel { display: none; }
+    .result-panel.active { display: block; }
+
+    /* ─── Vehicle Info Card ──────────────────────────────── */
+    .vehicle-plate {
+      background: #ffd700;
+      color: #000;
+      text-align: center;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+      font-family: "UKNumberPlate", "Charles Wright", "Arial Black", Arial, sans-serif;
+      border: 2px solid #e6c200;
+    }
+
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .vehicle-stat {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+    }
+    .vehicle-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin-bottom: 4px; }
+    .vehicle-stat-value { font-size: 14px; font-weight: 700; color: var(--text); }
+    .vehicle-stat.full { grid-column: 1 / -1; }
+
+    /* ─── Compatibility Badge ────────────────────────────── */
+    .compat-badge {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 18px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid;
+    }
+    .compat-badge.compatible   { background: rgba(34,197,94,0.12);  border-color: rgba(34,197,94,0.3);  }
+    .compat-badge.incompatible { background: rgba(239,68,68,0.12);  border-color: rgba(239,68,68,0.3);  }
+    .compat-badge.unknown      { background: rgba(249,115,22,0.12); border-color: rgba(249,115,22,0.3); }
+    .compat-badge.manual       { background: rgba(0,180,216,0.12);  border-color: rgba(0,180,216,0.3);  }
+
+    .badge-icon { font-size: 28px; }
+    .badge-content { flex: 1; }
+    .badge-title { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+    .badge-title.compatible   { color: var(--success); }
+    .badge-title.incompatible { color: var(--danger); }
+    .badge-title.unknown      { color: var(--warning); }
+    .badge-title.manual       { color: var(--accent2); }
+    .badge-note { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+    /* ─── Part Info ──────────────────────────────────────── */
+    .part-info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .part-info-row:last-child { border-bottom: none; }
+    .part-info-label { font-size: 13px; color: var(--muted); }
+    .part-info-value { font-size: 13px; font-weight: 600; text-align: right; max-width: 200px; }
+
+    /* ─── External Links ─────────────────────────────────── */
+    .links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ext-link {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; padding: 14px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      transition: background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ext-link:active { background: rgba(255,255,255,0.08); }
+    .ext-link-icon { font-size: 20px; }
+
+    /* ─── History ─────────────────────────────────────────── */
+    .history-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-reg {
+      background: #ffd700; color: #000;
+      padding: 3px 8px; border-radius: 4px;
+      font-size: 12px; font-weight: 800; letter-spacing: 2px;
+      font-family: "Arial Black", Arial, sans-serif;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .history-details { flex: 1; min-width: 0; }
+    .history-part { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .history-vehicle { font-size: 11px; color: var(--muted); }
+    .history-status { font-size: 18px; flex-shrink: 0; }
+    .history-clear { font-size: 12px; color: var(--muted); padding: 4px 0; cursor: pointer; text-align: right; margin-top: 4px; -webkit-tap-highlight-color: transparent; }
+    .no-history { text-align: center; padding: 20px; color: var(--muted); font-size: 14px; }
+
+    /* ─── Settings Modal ─────────────────────────────────── */
+    .modal-backdrop {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 200;
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+    .modal-backdrop.active { display: flex; align-items: flex-end; justify-content: center; }
+    .modal {
+      background: var(--card);
+      border-radius: 20px 20px 0 0;
+      padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+      width: 100%; max-width: 480px;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-handle {
+      width: 40px; height: 4px; background: var(--border);
+      border-radius: 2px; margin: 0 auto 20px;
+    }
+    .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+    .settings-label { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 6px; display: block; }
+    .settings-input {
+      width: 100%; padding: 12px 14px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      -webkit-appearance: none;
+      margin-bottom: 12px;
+    }
+    .settings-input:focus { border-color: var(--accent2); }
+    .settings-info {
+      background: rgba(0,180,216,0.08);
+      border: 1px solid rgba(0,180,216,0.2);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .settings-info a { color: var(--accent2); text-decoration: none; }
+    .settings-save {
+      width: 100%; padding: 16px;
+      background: var(--accent2);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .settings-save:active { opacity: 0.85; }
+
+    /* ─── Error State ─────────────────────────────────────── */
+    .error-panel {
+      display: none;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .error-panel.active { display: block; }
+    .error-title { font-size: 14px; font-weight: 600; color: var(--danger); margin-bottom: 4px; }
+    .error-msg { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── Tab Bar ─────────────────────────────────────────── */
+    .tab-bar {
+      position: fixed;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100%; max-width: 480px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      padding-bottom: env(safe-area-inset-bottom);
+      z-index: 100;
+    }
+    .tab-btn {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; gap: 3px;
+      padding: 10px 0 8px;
+      background: none; border: none; color: var(--muted);
+      font-size: 10px; font-weight: 500; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.15s;
+    }
+    .tab-btn.active { color: var(--accent); }
+    .tab-icon { font-size: 20px; }
+
+    /* ─── View Pages ──────────────────────────────────────── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ─── Empty State ─────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-text { font-size: 14px; line-height: 1.6; }
+
+    /* ─── API Key Warning ────────────────────────────────── */
+    .api-warning {
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.3);
+      border-radius: 12px; padding: 14px 16px;
+      margin-bottom: 16px; cursor: pointer;
+      display: flex; align-items: center; gap: 10px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .api-warning-icon { font-size: 20px; }
+    .api-warning-text { flex: 1; font-size: 13px; color: var(--warning); font-weight: 500; }
+    .api-warning-arrow { color: var(--muted); font-size: 16px; }
+
+    /* ─── Tooltip ─────────────────────────────────────────── */
+    .tip {
+      font-size: 11px; color: var(--muted);
+      margin-top: 6px; text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-top">
+        <div class="logo">
+          <div class="logo-icon">🔧</div>
+          <div>
+            <div class="logo-text">Parts Checker</div>
+            <div class="logo-sub">UK Vehicle Compatibility</div>
+          </div>
+        </div>
+        <button class="settings-btn" id="settingsBtn" aria-label="Settings">⚙️</button>
+      </div>
+    </div>
+
+    <!-- Check View -->
+    <div class="content">
+      <div class="view active" id="viewCheck">
+
+        <!-- API Key Warning (shown when no key set) -->
+        <div class="api-warning" id="apiWarning" onclick="openSettings()" style="display:none">
+          <span class="api-warning-icon">⚠️</span>
+          <span class="api-warning-text">DVLA API key required. Tap to set up.</span>
+          <span class="api-warning-arrow">›</span>
+        </div>
+
+        <!-- Input Card -->
+        <div class="card">
+          <div class="card-title">🚗 Vehicle Registration</div>
+
+          <div class="reg-plate-wrap">
+            <input
+              type="text"
+              class="reg-plate"
+              id="regInput"
+              placeholder="AB12 CDE"
+              maxlength="8"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="characters"
+              spellcheck="false"
+              inputmode="text"
+            />
+          </div>
+          <p class="tip">Enter full UK registration number</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🔩 Part / OEM Code</div>
+          <div class="input-label">Part Number or OEM Code</div>
+          <input
+            type="text"
+            class="part-input"
+            id="partInput"
+            placeholder="e.g. 1J0407271E or NGK BKUR6ET-10"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="characters"
+            spellcheck="false"
+          />
+        </div>
+
+        <button class="check-btn" id="checkBtn" onclick="runCheck()">
+          <span class="btn-icon">🔍</span> Check Compatibility
+        </button>
+
+        <!-- Loader -->
+        <div class="loader" id="loader">
+          <div class="spinner"></div>
+          <div class="loader-text" id="loaderText">Looking up vehicle…</div>
+        </div>
+
+        <!-- Error -->
+        <div class="error-panel" id="errorPanel">
+          <div class="error-title" id="errorTitle">Error</div>
+          <div class="error-msg" id="errorMsg"></div>
+        </div>
+
+        <!-- Result -->
+        <div class="result-panel" id="resultPanel">
+
+          <!-- Compatibility Badge -->
+          <div class="compat-badge manual" id="compatBadge">
+            <span class="badge-icon" id="badgeIcon">🔍</span>
+            <div class="badge-content">
+              <div class="badge-title manual" id="badgeTitle">Checking…</div>
+              <div class="badge-note" id="badgeNote"></div>
+            </div>
+          </div>
+
+          <!-- Vehicle Info -->
+          <div class="card" id="vehicleCard">
+            <div class="card-title">🚗 Vehicle Details</div>
+            <div class="vehicle-plate" id="vehiclePlate"></div>
+            <div class="vehicle-grid" id="vehicleGrid"></div>
+          </div>
+
+          <!-- Part Info -->
+          <div class="card" id="partCard">
+            <div class="card-title">🔩 Part Information</div>
+            <div id="partRows"></div>
+          </div>
+
+          <!-- External Search Links -->
+          <div class="card">
+            <div class="card-title">🔗 Search Retailers</div>
+            <div class="links-grid" id="searchLinks"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- History View -->
+      <div class="view" id="viewHistory">
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Recent Checks</span>
+            <span class="history-clear" onclick="clearHistory()">Clear all</span>
+          </div>
+          <div id="historyList">
+            <div class="no-history">No checks yet</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /app -->
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tabCheck" onclick="switchTab('check')">
+      <span class="tab-icon">🔍</span>Check
+    </button>
+    <button class="tab-btn" id="tabHistory" onclick="switchTab('history')">
+      <span class="tab-icon">📋</span>History
+    </button>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeSettingsOnBackdrop(event)">
+    <div class="modal" id="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">⚙️ Settings</div>
+
+      <label class="settings-label" for="apiKeyInput">DVLA VES API Key</label>
+      <input
+        type="text"
+        class="settings-input"
+        id="apiKeyInput"
+        placeholder="Enter your DVLA API key"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+      />
+
+      <div class="settings-info">
+        The DVLA Vehicle Enquiry Service API is <strong>free</strong> to use.<br>
+        Register at: <a href="https://developer-portal.driver-vehicle-licensing.api.gov.uk/" target="_blank">developer-portal.driver-vehicle-licensing.api.gov.uk</a><br><br>
+        Your key is stored only on this device and never sent anywhere except the official DVLA API.
+      </div>
+
+      <button class="settings-save" onclick="saveSettings()">Save Settings</button>
+    </div>
+  </div>
+
+  <script>
+  // ─── OEM Manufacturer Database ───────────────────────────────────────────────
+  // Maps OEM code prefixes → manufacturer and part category hints
+  const OEM_BRANDS = [
+    { prefix: /^04[0-9]/i,                 brand: "Audi / VW Group",      type: "Genuine OEM" },
+    { prefix: /^0[56][0-9]/i,              brand: "Audi / VW Group",      type: "Genuine OEM" },
+    { prefix: /^1[A-Z0-9]{1}[0-9]/i,      brand: "VW / Audi / Skoda / SEAT", type: "Genuine OEM" },
+    { prefix: /^3[A-C][0-9]/i,            brand: "VW Group",             type: "Genuine OEM" },
+    { prefix: /^NGK/i,                     brand: "NGK",                  type: "Spark Plug / Sensor" },
+    { prefix: /^BKUR|^BKR|^BCP|^DCPR/i,  brand: "NGK",                  type: "Spark Plug" },
+    { prefix: /^GFE|^GDB|^GGP/i,          brand: "Mintex / TRW",         type: "Brake Part" },
+    { prefix: /^DF/i,                      brand: "Delphi",               type: "Fuel / Ignition" },
+    { prefix: /^GDB|^GBD/i,               brand: "TRW",                  type: "Brake Pads" },
+    { prefix: /^KH[0-9]/i,                brand: "Hella",                type: "Electrical / Lighting" },
+    { prefix: /^8[A-Z][0-9]/i,            brand: "BMW / MINI",           type: "Genuine OEM" },
+    { prefix: /^1[3-9][0-9]{4}/i,         brand: "BMW / MINI",           type: "Genuine OEM" },
+    { prefix: /^2[0-5][0-9]{4}/i,         brand: "BMW / MINI",           type: "Genuine OEM" },
+    { prefix: /^SU|^SFE|^EFL/i,           brand: "ACDelco / Unipart",    type: "Filter" },
+    { prefix: /^CORT|^49[0-9]/i,          brand: "Corteco",              type: "Seal / Gasket" },
+    { prefix: /^93[0-9]/i,                brand: "Vauxhall / Opel",      type: "Genuine OEM" },
+    { prefix: /^13[0-9]{5}/i,             brand: "Vauxhall / Opel",      type: "Genuine OEM" },
+    { prefix: /^55[0-9]{5}/i,             brand: "Fiat / Alfa / Jeep",   type: "Genuine OEM" },
+    { prefix: /^71[0-9]{5}/i,             brand: "Fiat / Alfa / Jeep",   type: "Genuine OEM" },
+    { prefix: /^A[0-9]{3}/i,              brand: "Mercedes-Benz",        type: "Genuine OEM" },
+    { prefix: /^A[0-9]{10}/i,             brand: "Mercedes-Benz",        type: "Genuine OEM" },
+    { prefix: /^4[A-H][0-9]/i,            brand: "Porsche",              type: "Genuine OEM" },
+    { prefix: /^LR[0-9]/i,                brand: "Land Rover / Jaguar",  type: "Genuine OEM" },
+    { prefix: /^C[0-9]{5,}/i,             brand: "Ford",                 type: "Genuine OEM" },
+    { prefix: /^1[5-8][0-9]{4,}/i,        brand: "Ford",                 type: "Genuine OEM" },
+    { prefix: /^DW[0-9]/i,                brand: "Delphi / Diesel",      type: "Fuel System" },
+    { prefix: /^KIT|^RC[0-9]/i,           brand: "Sachs / ZF",           type: "Clutch / Suspension" },
+    { prefix: /^FAI/i,                     brand: "FAI Automotive",       type: "Engine Part" },
+    { prefix: /^LUK/i,                     brand: "LUK / Schaeffler",     type: "Clutch / Belt" },
+    { prefix: /^INA/i,                     brand: "INA / Schaeffler",     type: "Timing / Bearing" },
+    { prefix: /^FAG/i,                     brand: "FAG / Schaeffler",     type: "Bearing" },
+    { prefix: /^SKF/i,                     brand: "SKF",                  type: "Bearing / Seal" },
+    { prefix: /^BP[0-9]/i,                brand: "Blueprint",            type: "Aftermarket Part" },
+    { prefix: /^ADC|^ADN|^ADH|^ADG|^ADF|^ADE|^ADM/i, brand: "Blueprint", type: "Aftermarket Part" },
+    { prefix: /^TRW/i,                     brand: "TRW / ZF",             type: "Brake / Steering" },
+    { prefix: /^ATE[0-9]/i,               brand: "ATE Continental",      type: "Brake Part" },
+    { prefix: /^FEBI|^01[0-9]{4}/i,       brand: "FEBI / Bilstein",      type: "Aftermarket Part" },
+    { prefix: /^MOOG/i,                    brand: "Moog",                 type: "Suspension / Steering" },
+    { prefix: /^VW[0-9]/i,                brand: "VW Group",             type: "Genuine OEM" },
+    { prefix: /^GS[0-9]{4}/i,             brand: "Delphi / GS",          type: "Battery" },
+    { prefix: /^WIX|^WF/i,                brand: "WIX Filters",          type: "Filter" },
+    { prefix: /^MANN/i,                    brand: "Mann-Filter",          type: "Filter" },
+    { prefix: /^W[0-9]{3,}/i,             brand: "Mann-Filter",          type: "Filter" },
+    { prefix: /^HU[0-9]/i,                brand: "Mann-Filter",          type: "Oil Filter" },
+    { prefix: /^C[0-9]{4}/i,              brand: "Mann-Filter",          type: "Air Filter" },
+    { prefix: /^MAHLE|^OC[0-9]/i,         brand: "Mahle / Knecht",       type: "Filter / Engine" },
+  ];
+
+  // ─── Vehicle-to-brand compatibility hints ────────────────────────────────────
+  // Suggests likely compatibility based on vehicle make and OEM brand
+  function getCompatibilityHint(vehicleMake, oemBrand, partType) {
+    const make = (vehicleMake || "").toUpperCase();
+    const brand = (oemBrand || "").toUpperCase();
+
+    const GROUPS = {
+      "VW":     ["VW", "VOLKSWAGEN", "AUDI", "SKODA", "SEAT", "PORSCHE", "CUPRA"],
+      "BMW":    ["BMW", "MINI"],
+      "FORD":   ["FORD"],
+      "GM":     ["VAUXHALL", "OPEL"],
+      "FIAT":   ["FIAT", "ALFA", "JEEP", "LANCIA", "ABARTH", "MASERATI"],
+      "MERC":   ["MERCEDES", "MERCEDES-BENZ", "SMART"],
+      "PSA":    ["PEUGEOT", "CITROEN", "DS"],
+      "STEL":   ["PEUGEOT", "CITROEN", "DS", "FIAT", "ALFA", "JEEP", "OPEL", "VAUXHALL"],
+      "LANDROVER": ["LAND ROVER", "JAGUAR"],
+    };
+
+    const OEM_GROUP_MAP = {
+      "AUDI / VW GROUP":                "VW",
+      "VW / AUDI / SKODA / SEAT":       "VW",
+      "VW GROUP":                        "VW",
+      "BMW / MINI":                      "BMW",
+      "VAUXHALL / OPEL":                 "GM",
+      "FIAT / ALFA / JEEP":              "FIAT",
+      "MERCEDES-BENZ":                   "MERC",
+      "LAND ROVER / JAGUAR":             "LANDROVER",
+      "FORD":                            "FORD",
+    };
+
+    const oemGroup = OEM_GROUP_MAP[brand];
+    if (oemGroup) {
+      const compatibleMakes = GROUPS[oemGroup] || [];
+      const isMatch = compatibleMakes.some(m => make.includes(m) || m.includes(make));
+      if (isMatch) return "compatible";
+      // It's a genuine OEM part for a different brand
+      if (partType && partType.toLowerCase().includes("genuine")) return "incompatible";
+    }
+
+    // Aftermarket / universal brands are usually compatible
+    const AFTERMARKET = [
+      "NGK", "MINTEX", "TRW", "DELPHI", "HELLA", "CORTECO", "LUK",
+      "INA", "FAG", "SKF", "BLUEPRINT", "FEBI", "MOOG", "ATE CONTINENTAL",
+      "MAHLE", "MANN-FILTER", "WIX FILTERS", "SACHS", "FAI AUTOMOTIVE",
+      "ACDELCO", "UNIPART", "BOSCH", "VALEO",
+    ];
+    if (AFTERMARKET.some(a => brand.includes(a))) return "unknown"; // Potentially compatible — needs verification
+
+    return "unknown";
+  }
+
+  // ─── Identify OEM brand from part number ──────────────────────────────────────
+  function identifyOEMBrand(partNumber) {
+    const pn = (partNumber || "").trim();
+    for (const entry of OEM_BRANDS) {
+      if (entry.prefix.test(pn)) {
+        return { brand: entry.brand, type: entry.type };
+      }
+    }
+    return { brand: "Unknown / Unrecognised", type: "Unknown" };
+  }
+
+  // ─── Format reg number ────────────────────────────────────────────────────────
+  function formatReg(raw) {
+    return raw.replace(/\s+/g, "").toUpperCase();
+  }
+
+  // ─── DVLA VES API Call ────────────────────────────────────────────────────────
+  async function fetchVehicle(reg, apiKey) {
+    const response = await fetch(
+      "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": apiKey,
+        },
+        body: JSON.stringify({ registrationNumber: reg }),
+      }
+    );
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      if (response.status === 403 || response.status === 401) {
+        throw new Error("Invalid API key. Please check your DVLA API key in Settings.");
+      }
+      if (response.status === 404) {
+        throw new Error("Vehicle not found. Please check the registration number.");
+      }
+      const msg = body?.errors?.[0]?.detail || body?.message || `HTTP ${response.status}`;
+      throw new Error(msg);
+    }
+    return response.json();
+  }
+
+  // ─── State ────────────────────────────────────────────────────────────────────
+  let currentVehicle = null;
+
+  // ─── Main check function ──────────────────────────────────────────────────────
+  async function runCheck() {
+    const reg = formatReg(document.getElementById("regInput").value);
+    const partRaw = document.getElementById("partInput").value.trim().toUpperCase();
+
+    if (!reg) { alert("Please enter a registration number."); return; }
+    if (!partRaw) { alert("Please enter a part number or OEM code."); return; }
+
+    const apiKey = localStorage.getItem("dvla_api_key");
+    if (!apiKey) { openSettings(); return; }
+
+    // Reset UI
+    hideResult();
+    hideError();
+    showLoader("Looking up vehicle…");
+
+    try {
+      const vehicle = await fetchVehicle(reg, apiKey);
+      currentVehicle = vehicle;
+
+      showLoader("Identifying part…");
+      await new Promise(r => setTimeout(r, 400)); // Small UX delay
+
+      const { brand: oemBrand, type: oemType } = identifyOEMBrand(partRaw);
+      const compatStatus = getCompatibilityHint(vehicle.make, oemBrand, oemType);
+
+      hideLoader();
+      showResult(reg, vehicle, partRaw, oemBrand, oemType, compatStatus);
+      saveToHistory(reg, vehicle, partRaw, compatStatus);
+
+    } catch (err) {
+      hideLoader();
+      showError("Lookup Failed", err.message);
+    }
+  }
+
+  // ─── UI Helpers ───────────────────────────────────────────────────────────────
+  function showLoader(text) {
+    document.getElementById("loader").classList.add("active");
+    document.getElementById("loaderText").textContent = text;
+    document.getElementById("checkBtn").disabled = true;
+  }
+  function hideLoader() {
+    document.getElementById("loader").classList.remove("active");
+    document.getElementById("checkBtn").disabled = false;
+  }
+  function hideResult() {
+    document.getElementById("resultPanel").classList.remove("active");
+  }
+  function hideError() {
+    document.getElementById("errorPanel").classList.remove("active");
+  }
+  function showError(title, msg) {
+    document.getElementById("errorTitle").textContent = title;
+    document.getElementById("errorMsg").textContent = msg;
+    document.getElementById("errorPanel").classList.add("active");
+  }
+
+  function showResult(reg, vehicle, partNumber, oemBrand, oemType, compatStatus) {
+    // Compatibility badge
+    const badge = document.getElementById("compatBadge");
+    const badgeTitle = document.getElementById("badgeTitle");
+    const badgeNote = document.getElementById("badgeNote");
+    const badgeIcon = document.getElementById("badgeIcon");
+
+    badge.className = `compat-badge ${compatStatus}`;
+    badgeTitle.className = `badge-title ${compatStatus}`;
+
+    if (compatStatus === "compatible") {
+      badgeIcon.textContent = "✅";
+      badgeTitle.textContent = "Likely Compatible";
+      badgeNote.textContent = `${oemBrand} part matches ${vehicle.make} vehicle group. Always confirm with vehicle-specific fitment data.`;
+    } else if (compatStatus === "incompatible") {
+      badgeIcon.textContent = "❌";
+      badgeTitle.textContent = "Likely Incompatible";
+      badgeNote.textContent = `This appears to be a genuine OEM part for a different vehicle brand. Verify before ordering.`;
+    } else {
+      badgeIcon.textContent = "🔍";
+      badgeTitle.textContent = "Verify Fitment";
+      badgeNote.textContent = `${oemBrand} part identified. Cross-reference with the links below to confirm fitment for this vehicle.`;
+    }
+
+    // Vehicle plate
+    document.getElementById("vehiclePlate").textContent = reg.length > 4
+      ? `${reg.slice(0, reg.length - 3)} ${reg.slice(-3)}`
+      : reg;
+
+    // Vehicle grid
+    const grid = document.getElementById("vehicleGrid");
+    grid.innerHTML = "";
+
+    const stats = [
+      { label: "Make",         value: vehicle.make || "—" },
+      { label: "Colour",       value: vehicle.colour || "—" },
+      { label: "Year",         value: vehicle.yearOfManufacture || "—" },
+      { label: "Fuel Type",    value: vehicle.fuelType || "—" },
+      { label: "Engine CC",    value: vehicle.engineCapacity ? `${vehicle.engineCapacity}cc` : "—" },
+      { label: "Body Type",    value: vehicle.bodyType || "—" },
+      { label: "MOT Status",   value: vehicle.motStatus || "—" },
+      { label: "Tax Status",   value: vehicle.taxStatus || "—" },
+    ];
+
+    stats.forEach(stat => {
+      const div = document.createElement("div");
+      div.className = "vehicle-stat";
+      div.innerHTML = `<div class="vehicle-stat-label">${stat.label}</div><div class="vehicle-stat-value">${stat.value}</div>`;
+      grid.appendChild(div);
+    });
+
+    // Part rows
+    const partRows = document.getElementById("partRows");
+    partRows.innerHTML = "";
+    const partInfo = [
+      { label: "Part Number",   value: partNumber },
+      { label: "Brand",         value: oemBrand },
+      { label: "Part Type",     value: oemType },
+    ];
+    partInfo.forEach(row => {
+      const div = document.createElement("div");
+      div.className = "part-info-row";
+      div.innerHTML = `<span class="part-info-label">${row.label}</span><span class="part-info-value">${row.value}</span>`;
+      partRows.appendChild(div);
+    });
+
+    // Search links
+    const links = document.getElementById("searchLinks");
+    const make = encodeURIComponent(vehicle.make || "");
+    const partEnc = encodeURIComponent(partNumber);
+    const regEnc = encodeURIComponent(reg);
+
+    links.innerHTML = `
+      <a class="ext-link" href="https://www.gsfcarparts.com/search?reg=${regEnc}&q=${partEnc}" target="_blank" rel="noopener">
+        <span class="ext-link-icon">🔵</span>GSF Car Parts
+      </a>
+      <a class="ext-link" href="https://www.eurocarparts.com/search?q=${partEnc}&vrm=${regEnc}" target="_blank" rel="noopener">
+        <span class="ext-link-icon">🟡</span>Euro Car Parts
+      </a>
+      <a class="ext-link" href="https://www.autodoc.co.uk/search/?str=${partEnc}" target="_blank" rel="noopener">
+        <span class="ext-link-icon">🟠</span>Autodoc
+      </a>
+      <a class="ext-link" href="https://www.ebay.co.uk/sch/i.html?_nkw=${partEnc}+${make}" target="_blank" rel="noopener">
+        <span class="ext-link-icon">🔴</span>eBay UK
+      </a>
+    `;
+
+    document.getElementById("resultPanel").classList.add("active");
+  }
+
+  // ─── History ──────────────────────────────────────────────────────────────────
+  function saveToHistory(reg, vehicle, partNumber, status) {
+    const history = JSON.parse(localStorage.getItem("check_history") || "[]");
+    history.unshift({
+      reg,
+      make: vehicle.make,
+      year: vehicle.yearOfManufacture,
+      partNumber,
+      status,
+      timestamp: Date.now(),
+    });
+    // Keep last 20
+    localStorage.setItem("check_history", JSON.stringify(history.slice(0, 20)));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const history = JSON.parse(localStorage.getItem("check_history") || "[]");
+    const list = document.getElementById("historyList");
+
+    if (history.length === 0) {
+      list.innerHTML = '<div class="no-history">No checks yet</div>';
+      return;
+    }
+
+    list.innerHTML = history.map((item, i) => {
+      const statusIcon = item.status === "compatible" ? "✅"
+                        : item.status === "incompatible" ? "❌" : "🔍";
+      const regFormatted = item.reg.length > 4
+        ? `${item.reg.slice(0, item.reg.length - 3)} ${item.reg.slice(-3)}`
+        : item.reg;
+      return `
+        <div class="history-item" onclick="reloadCheck(${i})">
+          <span class="history-reg">${regFormatted}</span>
+          <div class="history-details">
+            <div class="history-part">${item.partNumber}</div>
+            <div class="history-vehicle">${item.make || ""}${item.year ? " · " + item.year : ""}</div>
+          </div>
+          <span class="history-status">${statusIcon}</span>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function clearHistory() {
+    if (confirm("Clear all history?")) {
+      localStorage.removeItem("check_history");
+      renderHistory();
+    }
+  }
+
+  function reloadCheck(index) {
+    const history = JSON.parse(localStorage.getItem("check_history") || "[]");
+    const item = history[index];
+    if (!item) return;
+    document.getElementById("regInput").value = item.reg;
+    document.getElementById("partInput").value = item.partNumber;
+    switchTab("check");
+  }
+
+  // ─── Settings ─────────────────────────────────────────────────────────────────
+  function openSettings() {
+    const key = localStorage.getItem("dvla_api_key") || "";
+    document.getElementById("apiKeyInput").value = key;
+    document.getElementById("modalBackdrop").classList.add("active");
+  }
+
+  function closeSettings() {
+    document.getElementById("modalBackdrop").classList.remove("active");
+  }
+
+  function closeSettingsOnBackdrop(event) {
+    if (event.target === document.getElementById("modalBackdrop")) closeSettings();
+  }
+
+  function saveSettings() {
+    const key = document.getElementById("apiKeyInput").value.trim();
+    if (!key) { alert("Please enter a valid API key."); return; }
+    localStorage.setItem("dvla_api_key", key);
+    updateApiWarning();
+    closeSettings();
+  }
+
+  function updateApiWarning() {
+    const hasKey = !!localStorage.getItem("dvla_api_key");
+    document.getElementById("apiWarning").style.display = hasKey ? "none" : "flex";
+  }
+
+  // ─── Tab switching ─────────────────────────────────────────────────────────────
+  function switchTab(tab) {
+    document.getElementById("viewCheck").classList.toggle("active", tab === "check");
+    document.getElementById("viewHistory").classList.toggle("active", tab === "history");
+    document.getElementById("tabCheck").classList.toggle("active", tab === "check");
+    document.getElementById("tabHistory").classList.toggle("active", tab === "history");
+    if (tab === "history") renderHistory();
+  }
+
+  // ─── Reg input: auto-format and filter ────────────────────────────────────────
+  document.getElementById("regInput").addEventListener("input", function () {
+    const val = this.value.replace(/[^A-Za-z0-9\s]/g, "").toUpperCase();
+    this.value = val;
+  });
+
+  // ─── Allow Enter to trigger check ─────────────────────────────────────────────
+  document.getElementById("partInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") runCheck();
+  });
+  document.getElementById("regInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") document.getElementById("partInput").focus();
+  });
+
+  // ─── Settings button ──────────────────────────────────────────────────────────
+  document.getElementById("settingsBtn").addEventListener("click", openSettings);
+
+  // ─── Init ─────────────────────────────────────────────────────────────────────
+  updateApiWarning();
+  renderHistory();
+  </script>
+</body>
+</html>
